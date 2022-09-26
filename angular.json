@@ -96,10 +96,14 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "6c27e679-5f6b-4b70-ac2d-5a9dd85c2936"
   }
 }
