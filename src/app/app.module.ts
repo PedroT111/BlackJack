@@ -5,18 +5,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DealerComponent } from './components/dealer/dealer.component';
 import { PlayerComponent } from './components/player/player.component';
+import { GameComponent } from './components/game/game.component';
+import { FormsModule } from '@angular/forms';
+import { CardsService } from 'src/services/cards.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DealerComponent,
-    PlayerComponent
+    PlayerComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [CardsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
