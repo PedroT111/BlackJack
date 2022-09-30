@@ -15,8 +15,8 @@ export class DealerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getCard(){
+  /*getCard(){
     this.onGetCard.emit();
-  }
+  }*/
 
 }

@@ -10,6 +10,7 @@ export class PlayerComponent implements OnInit {
   @Input() puntajeUsuario: number;
   @Output() onGetCard = new EventEmitter();
   @Output() onPlantarse = new EventEmitter();
+  @Output() onReiniciar = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
@@ -21,4 +22,9 @@ export class PlayerComponent implements OnInit {
   plantarse(){
     this.onPlantarse.emit();
   }
+
+  reiniciar(){
+    this.onReiniciar.emit();
+  }
+
 }

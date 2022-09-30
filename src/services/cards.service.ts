@@ -66,6 +66,12 @@ export class CardsService {
     this.cartasDisponibles = this.cartas.slice();
   }
 
+  restablecer(){
+    this.cartasDisponibles = this.cartas.slice();
+    this.cartasCroupier = [];
+    this.cartasUsuario = [];
+  }
+
   obtenerCartaAleatoria(jugador: string) {
     const card = this.cartasDisponibles.splice(
       Math.floor(Math.random() * this.cartasDisponibles.length),

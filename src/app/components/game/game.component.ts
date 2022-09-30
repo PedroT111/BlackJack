@@ -102,20 +102,45 @@ export class GameComponent implements OnInit {
     this.turnoJugador = true;
   }
 
-  jugadaCroupier() {
+ reiniciar(){
+    this.serviceCard.restablecer();
+    this.puntajeCroupier = 0;
+    this.puntajeUsuario = 0;
+    this.turnoJugador = true;
+    this.cartasCroupier = [];
+    this.cartasUsuario = [];
+    this.iniciarJuego();
+  }
+
+  /*jugadaCroupier() {
     while (this.puntajeCroupier < 17) {
       this.obtenerCartasCroupier();
     }
     if (this.puntajeCroupier > 10) {
       alert('Perdió el croupier :)');
     }
-  }
+  }*/
 
   obtenerResultado() {
-    if (this.puntajeUsuario > this.puntajeCroupier) {
+    /*if (this.puntajeUsuario > this.puntajeCroupier) {
       this.jugadaCroupier();
     } else if (this.puntajeUsuario < this.puntajeCroupier) {
       alert('Perdiste! :/')
+    }*/
+    while (this.puntajeCroupier < 17) {
+      this.obtenerCartasCroupier();
+    }
+    if(this.puntajeCroupier < 22 && this.puntajeCroupier > this.puntajeUsuario){
+      alert('Perdiste!');
+    }
+    else if(this.puntajeCroupier < 22 && this.puntajeCroupier < this.puntajeUsuario){
+      alert('Ganaste!');
+    }
+    else if(this.puntajeCroupier < 22 && this.puntajeCroupier === this.puntajeUsuario){
+      alert('Empate!');
+    }
+    else if(this.puntajeCroupier > 21){
+      alert('Ganaste!');
     }
   }
 }
