@@ -1,10 +1,19 @@
 <div class="row h-50 w-100">
-    <div class="col-sm-6 mx-auto bg-primary p-5">
-        <app-dealer (onGetCard)="getCardsDealer()" [cards]="dealerCards"></app-dealer>
-    </div>
+  <div class="col-sm-6 mx-auto bg-primary p-5">
+    <app-dealer
+      [puntajeCroupier]="this.puntajeCroupier"
+      (onGetCard)="obtenerCartasCroupier()"
+      [cards]="cartasCroupier"
+    ></app-dealer>
+  </div>
 </div>
 <div class="row h-50 w-100">
-    <div class="col-sm-6 mx-auto bg-danger p-5">
-        <app-player (onGetCard)="getCardsUser()" [cards]="userCards"></app-player>
-    </div>
+  <div class="col-sm-6 mx-auto bg-danger p-5">
+    <app-player
+      [puntajeUsuario]="this.puntajeUsuario"
+      (onGetCard)="obtenerCartasJugador()"
+      [cards]="cartasUsuario"
+      (onPlantarse)="obtenerResultado()"
+    ></app-player>
+  </div>
 </div>

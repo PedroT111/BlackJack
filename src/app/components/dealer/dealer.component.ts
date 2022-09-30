@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class DealerComponent implements OnInit {
 
   @Input() cards: any = [];
+  @Input() puntajeCroupier: number;
   @Output() onGetCard = new EventEmitter();
   constructor() { }
 

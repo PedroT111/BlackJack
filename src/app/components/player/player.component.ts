@@ -3,18 +3,22 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.css']
+  styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
   @Input() cards: any = [];
+  @Input() puntajeUsuario: number;
   @Output() onGetCard = new EventEmitter();
-  constructor() { }
+  @Output() onPlantarse = new EventEmitter();
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  getCard(){
+  getCard() {
     this.onGetCard.emit();
   }
 
+  plantarse(){
+    this.onPlantarse.emit();
+  }
 }
