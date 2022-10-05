@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Carta } from 'src/app/models/carta';
+import { CardsService } from 'src/services/cards.service';
 
 @Component({
   selector: 'app-player',
@@ -6,25 +8,31 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  @Input() cards: any = [];
-  @Input() puntajeUsuario: number;
   @Output() onGetCard = new EventEmitter();
   @Output() onPlantarse = new EventEmitter();
   @Output() onReiniciar = new EventEmitter();
-  constructor() {}
+
+  constructor(private serviceCard: CardsService) {}
 
   ngOnInit(): void {}
+
+  get puntajeUsuario() {
+    return this.serviceCard.puntajeUsuario;
+  }
+  
+  get cartas() {
+    return this.serviceCard.cartasUsuario;
+  }
 
   getCard() {
     this.onGetCard.emit();
   }
 
-  plantarse(){
+  plantarse() {
     this.onPlantarse.emit();
   }
 
-  reiniciar(){
+  reiniciar() {
     this.onReiniciar.emit();
   }
-
 }
