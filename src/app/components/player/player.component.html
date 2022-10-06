@@ -8,8 +8,13 @@
     <img [src]="c.img" [alt]="c.valorJuego" width="100px" />
   </div>
 </div>
-<div class="botones">
-  <button class="brillo-hover" (click)="getCard()">pedir carta</button>
-  <button class="brillo-hover" (click)="plantarse()">plantarse</button>
-  <button class="brillo-hover" (click)="reiniciar()">reiniciar</button>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="botones">
+      <button [disabled]="!flagInicio" class="brillo-hover" (click)="getCard()">pedir carta</button>
+      <button [disabled]="!flagInicio" class="brillo-hover" (click)="plantarse()">plantarse</button>
+      <button class="brillo-hover" (click)="reiniciar()">reiniciar</button>
+    </div>
+  </div>
 </div>
+

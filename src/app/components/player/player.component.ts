@@ -11,7 +11,7 @@ export class PlayerComponent implements OnInit {
   @Output() onGetCard = new EventEmitter();
   @Output() onPlantarse = new EventEmitter();
   @Output() onReiniciar = new EventEmitter();
-
+  @Input() flagInicio: boolean;
   constructor(private serviceCard: CardsService) {}
 
   ngOnInit(): void {}
@@ -30,6 +30,7 @@ export class PlayerComponent implements OnInit {
 
   plantarse() {
     this.onPlantarse.emit();
+    console.log(this.flagInicio)
   }
 
   reiniciar() {
