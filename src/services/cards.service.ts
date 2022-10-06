@@ -59,9 +59,13 @@ export class CardsService {
         this.cartasCroupier.find((element) => element.valor === 'as') !=
         undefined
       ) {
-        if (puntos > 21) {
-          puntos -= 10;
-        }
+        const cartasConAses = this.cartasCroupier.filter(this.tieneAs);
+        console.log(cartasConAses);
+        cartasConAses.forEach(i => {
+          if (puntos > 21) {
+            puntos -= 10;
+          }
+        });
       }
 
       this.puntajeCroupier = puntos;
@@ -74,9 +78,13 @@ export class CardsService {
         this.cartasUsuario.find((element) => element.valor === 'as') !=
         undefined
       ) {
-        if (puntos > 21) {
-          puntos -= 10;
-        }
+        const cartasConAses = this.cartasUsuario.filter(this.tieneAs);
+        console.log(cartasConAses);
+        cartasConAses.forEach(i => {
+          if (puntos > 21) {
+            puntos -= 10;
+          }
+        });
       }
 
       this.puntajeUsuario = puntos;
@@ -85,6 +93,13 @@ export class CardsService {
         alert('Perdiste! :(');
       }
     }
+  }
+
+  tieneAs(carta: Carta) {
+    if (carta.valor === 'as') {
+      return true;
+    }
+    return false;
   }
 
   obtenerResultado() {
