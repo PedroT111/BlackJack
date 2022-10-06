@@ -1,26 +1,3 @@
-.titulo {
-  font-size: 45px;
-  font-weight: bolder;
-  animation: color-animation 4s linear infinite;
-}
-
-.titulo-1 {
-  --color-1: #ff0000;
-  --color-2: #ffecb1;
-  --color-3: #0a1a51;
-}
-
-.titulo-2 {
-  --color-1: #0a1a51;
-  --color-2: #ff0000;
-  --color-3: #ffecb1;
-}
-
-.titulo-3 {
-  --color-1: #ffecb1;
-  --color-2: #0a1a51;
-  --color-3: #ff0000;
-}
 
 @keyframes color-animation {
   0% {

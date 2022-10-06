@@ -1,6 +1,7 @@
 .botones{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+
     margin-top: 60px;
 }
 
@@ -11,8 +12,8 @@ div p.marcador{
 }
 
 .brillo-hover {
-    width: 130px;
-    height: 35px;
+    width: 150px;
+    height: 45px;
     font-size: 18px;
     border: none;
     outline: none;

@@ -8,13 +8,17 @@ import { PlayerComponent } from './components/player/player.component';
 import { GameComponent } from './components/game/game.component';
 import { FormsModule } from '@angular/forms';
 import { CardsService } from 'src/services/cards.service';
+import { HeaderComponent } from './components//header/header.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DealerComponent,
     PlayerComponent,
-    GameComponent
+    GameComponent,
+    HeaderComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

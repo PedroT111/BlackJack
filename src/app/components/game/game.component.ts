@@ -59,7 +59,7 @@ export class GameComponent implements OnInit {
   }*/
 
   obtenerResultado() {
-    this.banderaInicio = false;
     this.serviceCard.obtenerResultado();
+    this.banderaInicio = false;
   }
 }

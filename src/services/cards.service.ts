@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Carta } from 'src/app/models/carta';
 import { cartas } from '../db/db';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class CardsService {
@@ -90,7 +91,14 @@ export class CardsService {
       this.puntajeUsuario = puntos;
 
       if (this.puntajeUsuario > 21) {
-        alert('Perdiste! :(');
+        setTimeout(() =>{
+          Swal.fire({
+            icon: 'error',
+            title: 'Perdiste!',
+            timer:2000,
+            showConfirmButton: false
+          })
+        },500)
       }
     }
   }
@@ -115,19 +123,47 @@ export class CardsService {
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier > this.puntajeUsuario
     ) {
-      alert('Perdiste!');
+      setTimeout(() =>{
+        Swal.fire({
+          icon: 'error',
+          title: 'Perdiste!',
+          timer:2000,
+          showConfirmButton: false
+        })
+      },500)
     } else if (
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier < this.puntajeUsuario
     ) {
-      alert('Ganaste!');
+      setTimeout(() =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Ganaste!',
+          timer:2000,
+          showConfirmButton: false
+        })
+      },500)
     } else if (
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier === this.puntajeUsuario
     ) {
-      alert('Empate!');
+      setTimeout(() =>{
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empate!',
+          timer:2000,
+          showConfirmButton: false
+        })
+      },500)
     } else if (this.puntajeCroupier > 21) {
-      alert('Ganaste!');
+      setTimeout(() =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Ganaste!',
+          timer:2000,
+          showConfirmButton: false
+        })
+      },500)
     }
   }
 }
