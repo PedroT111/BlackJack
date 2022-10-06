@@ -398,10 +398,10 @@ export class CardsService {
     )[0] as Carta;
     if (jugador == 'jugador') {
       this.cartasUsuario.push(carta);
-      this.obtenerPuntos(carta, jugador);
+      this.obtenerPuntos(jugador);
     } else {
       this.cartasCroupier.push(carta);
-      this.obtenerPuntos(carta, jugador);
+      this.obtenerPuntos(jugador);
     }
   }
 
@@ -412,39 +412,39 @@ export class CardsService {
     return this.cartasUsuario;
   }
 
-  obtenerPuntos(carta: Carta, jugador: string) {
-    let valorCarta = 0;
-
+  obtenerPuntos(jugador: string) {
+    let puntos = 0;
     if (jugador === 'croupier') {
-      if (carta.valor != 'as') {
-        valorCarta = carta.valorJuego;
-      } else {
-        valorCarta = 11;
-        if (this.puntajeCroupier + valorCarta > 21) {
-          valorCarta = 1;
+      this.cartasCroupier.forEach((carta) => {
+        puntos += carta.valorJuego;
+      });
+
+      if (
+        this.cartasCroupier.find((element) => element.valor === 'as') !=
+        undefined
+      ) {
+        if (puntos > 21) {
+          puntos -= 10;
         }
       }
-      // } else {
-      //   // console.log(idCarta);
-      //   valorCarta = parseInt(idCarta.substring(0, idCarta.length - 1));
-      // }
-      // // console.log(valorCarta);
-      this.puntajeCroupier += valorCarta;
+
+      this.puntajeCroupier = puntos;
     } else if (jugador === 'jugador') {
-      if (carta.valor != 'as') {
-        valorCarta = carta.valorJuego;
-      } else {
-        valorCarta = 11;
-        if (this.puntajeCroupier + valorCarta > 21) {
-          valorCarta = 1;
+      this.cartasUsuario.forEach((carta) => {
+        puntos += carta.valorJuego;
+      });
+
+      if (
+        this.cartasUsuario.find((element) => element.valor === 'as') !=
+        undefined
+      ) {
+        if (puntos > 21) {
+          puntos -= 10;
         }
       }
-      // } else {
-      //   // console.log(idCarta);
-      //   valorCarta = parseInt(idCarta.substring(0, idCarta.length - 1));
-      // }
-      // console.log(valorCarta);
-      this.puntajeUsuario += valorCarta;
+
+      this.puntajeUsuario = puntos;
+
       if (this.puntajeUsuario > 21) {
         alert('Perdiste! :(');
       }
@@ -458,7 +458,7 @@ export class CardsService {
       alert('Perdiste! :/')
     }*/
     while (this.puntajeCroupier < 17) {
-      this.obtenerCartaAleatoria("croupier");
+      this.obtenerCartaAleatoria('croupier');
     }
     if (
       this.puntajeCroupier < 22 &&
