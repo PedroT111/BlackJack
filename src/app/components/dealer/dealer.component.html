@@ -1,18 +1,25 @@
+<div class="row">
+  <div>
+    <p class="marcador">
+      croupier : <span *ngIf="banderaInicio"> ~</span>
+      <span [hidden]="banderaInicio">{{ puntajeCroupier }}</span>
+    </p>
+  </div>
+</div>
 <div [hidden]="!banderaInicio" class="row">
   <div class="col">
-    <img [src]="cartas[0].img" [alt]="cartas[0].valorJuego" height="150px" />
+    <img [src]="cartas[0].img" [alt]="cartas[0].valorJuego" width="80px" />
   </div>
   <div class="col">
-    <img src="../../../assets/cartas/png-cartas/back.jpg" alt="Carta Oculta" height="150px" />
+    <img
+      src="../../../assets/cartas/png-cartas/back.jpg"
+      alt="Carta Oculta"
+      width="80px"
+    />
   </div>
 </div>
 <div [hidden]="banderaInicio" class="row">
   <div class="col" *ngFor="let c of cartas">
-    <img [src]="c.img" [alt]="c.valorJuego" height="150px" />
-  </div>
-</div>
-<div [hidden]="banderaInicio" class="row">
-  <div class="col-1 py-2">
-    <h1>Puntaje: {{ puntajeCroupier }}</h1>
+    <img [src]="c.img" [alt]="c.valorJuego" width="80px" />
   </div>
 </div>

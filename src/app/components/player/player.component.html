@@ -1,12 +1,15 @@
 <div class="row">
-  <div class="col" *ngFor="let c of cartas">
-    <img [src]="c.img" [alt]="c.valorJuego" height="150px"/>
+  <div>
+    <p class="marcador">vos : {{ puntajeUsuario }}</p>
   </div>
 </div>
 <div class="row">
-    <div class="col-1 py-2"><h1>Puntaje: {{ puntajeUsuario }}</h1></div>
+  <div class="col" *ngFor="let c of cartas">
+    <img [src]="c.img" [alt]="c.valorJuego" width="100px" />
+  </div>
 </div>
-
-<button class="btn btn-dark" (click)="getCard()">Pedir Carta</button>
-<button class="btn btn-dark" (click)="plantarse()">Plantarse</button>
-<button class="btn btn-dark" (click)="reiniciar()">Reiniciar juego</button>
+<div class="botones">
+  <button class="brillo-hover" (click)="getCard()">pedir carta</button>
+  <button class="brillo-hover" (click)="plantarse()">plantarse</button>
+  <button class="brillo-hover" (click)="reiniciar()">reiniciar</button>
+</div>

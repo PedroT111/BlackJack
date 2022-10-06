@@ -1,13 +1,12 @@
-<div class="row h-50 w-100">
-  <div class="col-sm-6 mx-auto bg-primary p-5">
+<div>
+  <div class="col-sm-6 mx-auto p-4">
+    <h1><span class="titulo titulo-1">black</span><span class="titulo titulo-2">jack</span><span class="titulo titulo-3">.</span></h1>
     <app-dealer
       (onGetCard)="obtenerCartasCroupier()"
       [banderaInicio]="banderaInicio"
     ></app-dealer>
   </div>
-</div>
-<div class="row h-50 w-100">
-  <div class="col-sm-6 mx-auto bg-danger p-5">
+  <div class="col-sm-6 mx-auto p-4">
     <app-player
       (onGetCard)="obtenerCartasJugador()"
       (onPlantarse)="obtenerResultado()"
