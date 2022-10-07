@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, reduce } from 'rxjs';
 import { Carta } from 'src/app/models/carta';
 import { cartas } from '../db/db';
 import Swal from 'sweetalert2';
@@ -62,7 +62,7 @@ export class CardsService {
       ) {
         const cartasConAses = this.cartasCroupier.filter(this.tieneAs);
         console.log(cartasConAses);
-        cartasConAses.forEach(i => {
+        cartasConAses.forEach((i) => {
           if (puntos > 21) {
             puntos -= 10;
           }
@@ -81,7 +81,7 @@ export class CardsService {
       ) {
         const cartasConAses = this.cartasUsuario.filter(this.tieneAs);
         console.log(cartasConAses);
-        cartasConAses.forEach(i => {
+        cartasConAses.forEach((i) => {
           if (puntos > 21) {
             puntos -= 10;
           }
@@ -91,14 +91,14 @@ export class CardsService {
       this.puntajeUsuario = puntos;
 
       if (this.puntajeUsuario > 21) {
-        setTimeout(() =>{
+        setTimeout(() => {
           Swal.fire({
             icon: 'error',
             title: 'Perdiste!',
-            timer:2000,
-            showConfirmButton: false
-          })
-        },500)
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }, 500);
       }
     }
   }
@@ -111,11 +111,6 @@ export class CardsService {
   }
 
   obtenerResultado() {
-    /*if (this.puntajeUsuario > this.puntajeCroupier) {
-      this.jugadaCroupier();
-    } else if (this.puntajeUsuario < this.puntajeCroupier) {
-      alert('Perdiste! :/')
-    }*/
     while (this.puntajeCroupier < 17) {
       this.obtenerCartaAleatoria('croupier');
     }
@@ -123,47 +118,42 @@ export class CardsService {
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier > this.puntajeUsuario
     ) {
-      setTimeout(() =>{
-        Swal.fire({
-          icon: 'error',
-          title: 'Perdiste!',
-          timer:2000,
-          showConfirmButton: false
-        })
-      },500)
+      this.alerta('error', 'Perdiste!')
     } else if (
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier < this.puntajeUsuario
     ) {
-      setTimeout(() =>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Ganaste!',
-          timer:2000,
-          showConfirmButton: false
-        })
-      },500)
+      if (this.blackJackJugador()) {
+        this.alerta('success', 'Ganaste con un Blackjack!')
+      } else {
+        this.alerta('success', 'Ganaste!')
+      }
     } else if (
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier === this.puntajeUsuario
     ) {
-      setTimeout(() =>{
-        Swal.fire({
-          icon: 'warning',
-          title: 'Empate!',
-          timer:2000,
-          showConfirmButton: false
-        })
-      },500)
+      if (this.blackJackJugador()) {
+        this.alerta('success', 'Ganaste con un Blackjack!')
+      } else {
+        this.alerta('warning', 'Empate!')
+      }
     } else if (this.puntajeCroupier > 21) {
-      setTimeout(() =>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Ganaste!',
-          timer:2000,
-          showConfirmButton: false
-        })
-      },500)
+      this.alerta('success', 'Ganaste!')
     }
+  }
+
+  blackJackJugador() {
+    return this.cartasUsuario.length === 2 && this.puntajeUsuario === 21;
+  }
+
+  alerta(tipo: any, titulo: any) {
+    setTimeout(() => {
+      Swal.fire({
+        icon: tipo,
+        title: titulo,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }, 500);
   }
 }

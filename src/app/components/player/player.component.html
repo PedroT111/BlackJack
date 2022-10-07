@@ -10,9 +10,9 @@
 </div>
 <div class="row">
   <div class="col-sm-12">
-    <div class="botones">
-      <button [disabled]="!flagInicio" class="brillo-hover" (click)="getCard()">pedir carta</button>
-      <button [disabled]="!flagInicio" class="brillo-hover" (click)="plantarse()">plantarse</button>
+    <div class="grupo-botones">
+      <button [disabled]="!flagInicio" [ngClass]="{'brillo-hover' : flagInicio}" (click)="getCard()">pedir carta</button>
+      <button [disabled]="!flagInicio" [ngClass]="{'brillo-hover' : flagInicio}" (click)="plantarse()">plantarse</button>
       <button class="brillo-hover" (click)="reiniciar()">reiniciar</button>
     </div>
   </div>
