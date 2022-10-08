@@ -24,6 +24,9 @@ export class GameComponent implements OnInit {
 
   obtenerCartasJugador() {
     this.serviceCard.obtenerCartaAleatoria('jugador');
+    if (this.serviceCard.puntajeUsuario > 21) {
+      this.banderaInicio = false;
+    }
   }
 
   repartir() {

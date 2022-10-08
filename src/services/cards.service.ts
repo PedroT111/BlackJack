@@ -92,12 +92,7 @@ export class CardsService {
 
       if (this.puntajeUsuario > 21) {
         setTimeout(() => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Perdiste!',
-            timer: 2000,
-            showConfirmButton: false,
-          });
+          this.alerta('error', 'Perdiste!')
         }, 500);
       }
     }
