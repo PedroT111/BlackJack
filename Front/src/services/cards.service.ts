@@ -6,8 +6,8 @@ import Swal from 'sweetalert2';
 
 @Injectable()
 export class CardsService {
+  private token: any;
   cartas: Carta[] = cartas;
-
   cartasDisponibles: Carta[] = [];
   cartasCroupier: Carta[] = [];
   cartasUsuario: Carta[] = [];
@@ -18,7 +18,18 @@ export class CardsService {
     this.cartasDisponibles = this.cartas.slice();
     this.puntajeCroupier = 0;
     this.puntajeUsuario = 0;
+    //this.token = this.getTokenUser();
   }
+
+  /*getTokenUser() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return `Bearer ${token}`;
+    }
+    return null;
+  };*/
+
+
 
   restablecer() {
     this.cartasDisponibles = this.cartas.slice();

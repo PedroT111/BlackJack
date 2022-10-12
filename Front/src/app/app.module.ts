@@ -10,6 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { CardsService } from 'src/services/cards.service';
 import { HeaderComponent } from './components//header/header.component';
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import {HttpClientModule} from '@angular/common/http';
+import { RegistroComponent } from './components/registro/registro.component';
+import { AuthService } from 'src/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -18,14 +22,17 @@ import { HomeComponent } from './components/home/home.component';
     PlayerComponent,
     GameComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [CardsService],
+  providers: [CardsService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,13 @@
+<div class="col-sm-6">
+    <form>
+        <div class="mb-3">
+          <label  class="form-label">Usuario</label>
+          <input [(ngModel)]="usuario.usuario" name="usuario" type="text" class="form-control" id="txtUsuario">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input [(ngModel)]="usuario.password" name="password" type="password" class="form-control" id="txtPassword">
+        </div>
+        <button (click)="registrar()" type="button" class="btn btn-primary w-100">Registrar</button>
+      </form>
+</div>
