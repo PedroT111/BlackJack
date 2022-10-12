@@ -15,4 +15,12 @@ export class AuthService {
   signup(usuario: Usuario):Observable<any>{
     return this.http.post('http://localhost:4000/usuarios/registro', usuario);
   }
+
+  isLoggedIn():boolean{
+    const token = localStorage.getItem('token');
+    if(token){
+      return true;
+    }
+    return false;
+  }
 }

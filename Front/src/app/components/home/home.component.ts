@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CardsService } from 'src/services/cards.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,20 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private route: Router) { }
+  constructor(private route: Router, private cardService: CardsService) { }
 
   ngOnInit(): void {
+    this.cargarCartas();
+  }
+  cargarCartas(){
+    this.cardService.getCartasDesdeApi().subscribe({
+      next: (cartas) => {
+        console.log(cartas, 'cartas');
+      },
+      error: () => {
+
+      }
+    });
   }
 
   iniciarJuego(){

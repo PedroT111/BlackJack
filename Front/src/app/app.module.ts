@@ -14,6 +14,7 @@ import { LoginComponent } from './components/login/login.component';
 import {HttpClientModule} from '@angular/common/http';
 import { RegistroComponent } from './components/registro/registro.component';
 import { AuthService } from 'src/services/auth.service';
+import { AuthGuard } from './middleware/auth.guard';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { AuthService } from 'src/services/auth.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [CardsService, AuthService],
+  providers: [CardsService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

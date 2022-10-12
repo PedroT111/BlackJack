@@ -3,32 +3,37 @@ import { Observable, reduce } from 'rxjs';
 import { Carta } from 'src/app/models/carta';
 import { cartas } from '../db/db';
 import Swal from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CardsService {
-  private token: any;
-  cartas: Carta[] = cartas;
+  token: any;
+  cartas: any[];
   cartasDisponibles: Carta[] = [];
   cartasCroupier: Carta[] = [];
   cartasUsuario: Carta[] = [];
   puntajeCroupier: number;
   puntajeUsuario: number;
 
-  constructor() {
+  constructor(private http: HttpClient) {
+    //this.cartas = this.getCartasDesdeApi()
     this.cartasDisponibles = this.cartas.slice();
     this.puntajeCroupier = 0;
     this.puntajeUsuario = 0;
-    //this.token = this.getTokenUser();
+    this.token = this.getTokenUser();
   }
 
-  /*getTokenUser() {
+  getTokenUser() {
     const token = localStorage.getItem('token');
     if (token) {
       return `Bearer ${token}`;
     }
     return null;
-  };*/
+  };
 
+  getCartasDesdeApi():Observable<any>{
+    return this.http.get('http://localhost:4000/cartas/getCartas',{ headers: this.token ? { Authorization: this.token }:{}});
+  }
 
 
   restablecer() {

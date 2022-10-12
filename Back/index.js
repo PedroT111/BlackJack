@@ -16,7 +16,7 @@ app.use(cors());
 })();
 
 app.use('/usuarios', routesUsuario);
-app.use('/cartas', routesCartas)
+app.use('/cartas', routesCartas);
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`);
