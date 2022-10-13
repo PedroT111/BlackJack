@@ -17,7 +17,6 @@ const Register = async (req, res) => {
             usuario: usuario,
             password: pass
         });
-
         return res.status(200).json({
             usuario: newUsuario
         });
@@ -29,7 +28,6 @@ const Register = async (req, res) => {
 
 const Authentication = async (req, res) => {
     try{
-
         const {usuario, password} = req.body;
         const user = await Usuario.findOne({where:{usuario: usuario}});
         if(!user){

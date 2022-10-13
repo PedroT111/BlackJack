@@ -16,7 +16,7 @@ export class CardsService {
   puntajeUsuario: number;
 
   constructor(private http: HttpClient) {
-    //this.cartas = this.getCartasDesdeApi()
+    this.cartas = cartas;
     this.cartasDisponibles = this.cartas.slice();
     this.puntajeCroupier = 0;
     this.puntajeUsuario = 0;
