@@ -15,6 +15,20 @@ module.exports = (sequelize, DataTypes)=> {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        cartasCroupier: {
+            type: DataTypes.JSON,
+            allowNull: false
+        },
+        cartasUsuario: {
+            type: DataTypes.JSON,
+            allowNull: false
+        },
+        gano:{
+            type: DataTypes.BOOLEAN
+        },
+        terminada:{
+            type: DataTypes.BOOLEAN
+        }
     }, {
         freezeTableName: true
     });

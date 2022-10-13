@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, reduce } from 'rxjs';
+import { Observable} from 'rxjs';
 import { Carta } from 'src/app/models/carta';
 import { cartas } from '../db/db';
 import Swal from 'sweetalert2';
