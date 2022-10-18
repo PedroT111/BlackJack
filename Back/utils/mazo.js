@@ -372,7 +372,4 @@ const generarMazo=(veces)=>{
   console.log(veces)
   return flatten(times(always(shuffle(cartas)), veces));
 }
-
-// console.log(generarMazo(2).length);
-
 module.exports = { cartas, generarMazo };

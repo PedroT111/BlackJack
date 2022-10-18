@@ -10,9 +10,9 @@ import Swal from 'sweetalert2';
 })
 export class GameComponent implements OnInit {
   turnoJugador: boolean;
-  banderaInicio: boolean;
+  banderaInicio: boolean = true;
   usuarioId: any;
-  cantMazos: number = 2;
+  cantMazos: number = 1;
   idMazo: number;
   cartasRetirada: any[] = [];
   cartasCroupier: any[] = [];
@@ -28,7 +28,6 @@ export class GameComponent implements OnInit {
   }
 
   iniciarJuego(){
-    this.banderaInicio = true;
     this.jugadaService.nuevaJugada(this.usuarioId, this.cantMazos).subscribe({
       next: (res) => {
         console.log(res.mazo.id);
@@ -42,9 +41,9 @@ export class GameComponent implements OnInit {
       }
     })
   }
-  //Saca 4 cartas del mazo
+  //Saca 20 cartas del mazo
   retirarCartas(){
-    this.jugadaService.retirarCarta(this.idMazo, 4).subscribe({
+    this.jugadaService.retirarCarta(this.idMazo, 20).subscribe({
       next: (res) => {
         this.cartasRetirada = res.cartasRetiradas;
         //reparte las cartas
@@ -62,34 +61,44 @@ export class GameComponent implements OnInit {
     for (let i = 0; i < 4; i++) {
       if(this.turnoJugador){
         this.cartasJugador.push(this.cartasRetirada[i]);
+        this.cartasRetirada.splice(i, 1);
       } else{
         this.cartasCroupier.push(this.cartasRetirada[i]);
+        this.cartasRetirada.splice(i, 1);
       }
       this.turnoJugador = !this.turnoJugador;
     }
     this.turnoJugador = true;
   }
 
-  obtenerCartas(rol: string){
+  /*obtenerCartas(jugador: string){
     this.jugadaService.retirarCarta(this.idMazo, 1).subscribe({
       next: (res) => {
-        if(rol === 'jugador'){
+        if(jugador == 'jugador'){
           this.cartasJugador.push(res.cartasRetiradas[0]);
-          this.obtenerPuntos(rol);
-          if(this.puntajeJugador > 21){
-            this.banderaInicio = false;
-          }
+          this.obtenerPuntos(jugador);
         } else{
           this.cartasCroupier.push(res.cartasRetiradas[0]);
-          this.obtenerPuntos(rol);
+          this.obtenerPuntos(jugador);
         }
       },
       error: () => {
         console.log("Error")
       }
     })
-  }
+  }*/
 
+  obtenerCartas(jugador: string){
+    if (jugador == 'jugador') {
+      this.cartasJugador.push(this.cartasRetirada[0]);
+      this.cartasRetirada.splice(0,1);
+      this.obtenerPuntos(jugador);
+    } else {
+      this.cartasCroupier.push(this.cartasRetirada[0]);
+      this.cartasRetirada.splice(0,1);
+      this.obtenerPuntos(jugador);
+    }
+  }
   reiniciar(){
     //Registrar jugada y reiniciar
     this.registrarJugada();
@@ -166,9 +175,9 @@ export class GameComponent implements OnInit {
   obtenerResultado() {
     this.banderaInicio = false;
     //este while me genera un bucle infinito
-    /*while (this.puntajeCroupier < 17) {
+    while (this.puntajeCroupier < 17) {
      this.obtenerCartas('croupier');
-    }*/
+    }
     if (
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier > this.puntajeJugador
@@ -212,51 +221,4 @@ export class GameComponent implements OnInit {
     }, 500);
   }
 
-  /*obtenerCartasCroupier() {
-    this.serviceCard.obtenerCartaAleatoria('croupier');
-  }
-
-  obtenerCartasJugador() {
-    this.serviceCard.obtenerCartaAleatoria('jugador');
-    if (this.serviceCard.puntajeUsuario > 21) {
-      this.banderaInicio = false;
-    }
-  }
-
-  repartir() {
-    if (this.turnoJugador) {
-      this.obtenerCartasJugador();
-    } else {
-      this.obtenerCartasCroupier();
-    }
-  }
-
-  iniciarJuego() {
-    for (let i = 0; i < 4; i++) {
-      this.repartir();
-      this.turnoJugador = !this.turnoJugador;
-    }
-    this.turnoJugador = true;
-  }
-
-  reiniciar() {
-    this.serviceCard.restablecer();
-    this.iniciarJuego();
-    this.turnoJugador = true;
-    this.banderaInicio = true;
-  }
-
-  jugadaCroupier() {
-    while (this.puntajeCroupier < 17) {
-      this.obtenerCartasCroupier();
-    }
-    if (this.puntajeCroupier > 10) {
-      alert('Perdió el croupier :)');
-    }
-  }
-
-  obtenerResultado() {
-    this.serviceCard.obtenerResultado();
-    this.banderaInicio = false;
-  }*/
 }
