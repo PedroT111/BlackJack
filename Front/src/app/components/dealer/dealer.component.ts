@@ -9,19 +9,20 @@ import { CardsService } from 'src/services/cards.service';
 })
 export class DealerComponent implements OnInit {
   @Input() banderaInicio: boolean;
-
+  @Input() cartas: any[]= []; 
+  @Input() puntajeCroupier: number;
   constructor(private serviceCard: CardsService) {}
 
   ngOnInit(): void {}
 
-  get puntajeCroupier() {
+  /*get puntajeCroupier() {
     return this.serviceCard.puntajeCroupier;
-  }
+  }*/
 
-  get cartas() {
+  /*get cartas() {
     return this.serviceCard.cartasCroupier;
   }
-  /*getCard(){
+  getCard(){
     this.onGetCard.emit();
   }*/
 }

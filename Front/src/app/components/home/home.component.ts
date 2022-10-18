@@ -9,21 +9,11 @@ import { CardsService } from 'src/services/cards.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private route: Router, private cardService: CardsService) { }
+  constructor(private route: Router) { }
 
   ngOnInit(): void {
-    this.cargarCartas();
   }
-  cargarCartas(){
-    this.cardService.getCartasDesdeApi().subscribe({
-      next: (cartas) => {
-        console.log(cartas, 'cartas');
-      },
-      error: () => {
 
-      }
-    });
-  }
 
   iniciarJuego(){
     this.route.navigate(['game'])

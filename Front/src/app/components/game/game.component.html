@@ -1,16 +1,19 @@
 <div>
   <div class="col-sm-6 mx-auto p-4">
     <app-dealer
-      (onGetCard)="obtenerCartasCroupier()"
       [banderaInicio]="banderaInicio"
+      [cartas]="cartasCroupier"
+      [puntajeCroupier]="puntajeCroupier"
     ></app-dealer>
   </div>
   <div class="col-sm-6 mx-auto p-4">
     <app-player
-      (onGetCard)="obtenerCartasJugador()"
+      (onGetCard)="obtenerCartas($event)"
       (onPlantarse)="obtenerResultado()"
       (onReiniciar)="reiniciar()"
+      [cartas]="cartasJugador"
       [flagInicio]="banderaInicio"
+      [puntajeUsuario]="puntajeJugador"
     ></app-player>
   </div>
 </div>

@@ -20,19 +20,6 @@ export class CardsService {
     this.cartasDisponibles = this.cartas.slice();
     this.puntajeCroupier = 0;
     this.puntajeUsuario = 0;
-    this.token = this.getTokenUser();
-  }
-
-  getTokenUser() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      return `Bearer ${token}`;
-    }
-    return null;
-  };
-
-  getCartasDesdeApi():Observable<any>{
-    return this.http.get('http://localhost:4000/cartas/getCartas',{ headers: this.token ? { Authorization: this.token }:{}});
   }
 
 

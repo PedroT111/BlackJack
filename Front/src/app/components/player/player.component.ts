@@ -12,20 +12,13 @@ export class PlayerComponent implements OnInit {
   @Output() onPlantarse = new EventEmitter();
   @Output() onReiniciar = new EventEmitter();
   @Input() flagInicio: boolean;
+  @Input() cartas: any[] = [];
+  @Input() puntajeUsuario: number;
   constructor(private serviceCard: CardsService) {}
 
   ngOnInit(): void {}
-
-  get puntajeUsuario() {
-    return this.serviceCard.puntajeUsuario;
-  }
-  
-  get cartas() {
-    return this.serviceCard.cartasUsuario;
-  }
-
   getCard() {
-    this.onGetCard.emit();
+    this.onGetCard.emit('jugador');
   }
 
   plantarse() {

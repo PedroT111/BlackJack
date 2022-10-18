@@ -6,11 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class JugadaService {
-  private urlapi: string = "http://localhost:4000/jugadas/nueva";
   constructor(private http: HttpClient) { }
 
   nuevaJugada(idUsuario: number, cantMazos: number):Observable<any>{
-    return this.http.post(this.urlapi,{
+    return this.http.post('http://localhost:4000/jugadas/nueva',{
       "UsuarioId": idUsuario,
       "cantMazos": cantMazos
     } );
@@ -22,4 +21,5 @@ export class JugadaService {
         "cartas":  cantidad
     })
   }
+
 }
