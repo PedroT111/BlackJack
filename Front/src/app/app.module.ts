@@ -15,6 +15,8 @@ import {HttpClientModule} from '@angular/common/http';
 import { RegistroComponent } from './components/registro/registro.component';
 import { AuthService } from 'src/services/auth.service';
 import { AuthGuard } from './middleware/auth.guard';
+import { ReactiveFormsModule } from '@angular/forms';
+import { JugadaService } from 'src/services/jugada.service';
 
 @NgModule({
   declarations: [
@@ -31,9 +33,10 @@ import { AuthGuard } from './middleware/auth.guard';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [CardsService, AuthService, AuthGuard],
+  providers: [CardsService, AuthService, AuthGuard, JugadaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

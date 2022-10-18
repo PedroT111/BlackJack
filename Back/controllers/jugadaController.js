@@ -1,5 +1,5 @@
 const db = require("../models/index.js");
-const { crearService } = require("../services/crear");
+const { crearServicio } = require("../services/crear");
 const Usuario = db.models.Usuario;
 const Jugada = db.models.Jugada;
 
@@ -39,7 +39,7 @@ const nuevaJugada = async (req, res) => {
       terminada: false,
     });
 
-    const mazo = await crearService(cantMazos, nuevaJugada.id);
+    const mazo = await crearServicio(cantMazos, nuevaJugada.id);
 
     if (mazo) {
       return res.status(200).json({

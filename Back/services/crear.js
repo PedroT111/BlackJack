@@ -3,7 +3,7 @@ const db = require("../models/index.js");
 const Mazo = db.models.Mazo;
 const { generarMazo } = require("../utils/mazo");
 
-const crearService = async (mazos, jugadaId) => {
+const crearServicio = async (mazos, jugadaId) => {
   try {
     const cards = generarMazo(mazos);
     const mazo = new Mazo({
@@ -25,4 +25,4 @@ const crearService = async (mazos, jugadaId) => {
   }
 };
 
-module.exports = { crearService };
+module.exports = { crearServicio };

@@ -6,6 +6,7 @@ import { Usuario } from 'src/app/models/usuario';
 @Injectable()
 export class AuthService {
   private url: String = 'localhost:4000/usuarios/login';
+  estaLogueado: boolean = false;
   constructor(private http: HttpClient) { }
 
   login(usuario: Usuario):Observable<any>{

@@ -1,4 +1,4 @@
 export interface Usuario{
-    usuario: String;
-    password: String;
+    usuario?: String | null;
+    password?: String | null;
 }

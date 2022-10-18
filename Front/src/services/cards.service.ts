@@ -77,7 +77,7 @@ export class CardsService {
         undefined
       ) {
         const cartasConAses = this.cartasCroupier.filter(this.tieneAs);
-        console.log(cartasConAses);
+        //console.log(cartasConAses);
         cartasConAses.forEach((i) => {
           if (puntos > 21) {
             puntos -= 10;
@@ -96,7 +96,7 @@ export class CardsService {
         undefined
       ) {
         const cartasConAses = this.cartasUsuario.filter(this.tieneAs);
-        console.log(cartasConAses);
+        //console.log(cartasConAses);
         cartasConAses.forEach((i) => {
           if (puntos > 21) {
             puntos -= 10;
