@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Carta } from 'src/app/models/carta';
+import { cartas } from 'src/db/db';
 import { JugadaService } from 'src/services/jugada.service';
 import Swal from 'sweetalert2';
 
@@ -19,6 +20,9 @@ export class GameComponent implements OnInit {
   cartasJugador: any[] = [];
   puntajeCroupier: number;
   puntajeJugador: number;
+  jugadaId: number;
+  gano: boolean;
+  terminada: boolean = false;
   constructor(private jugadaService: JugadaService) {
     this.usuarioId = localStorage.getItem('usuarioId');
   }
@@ -30,8 +34,9 @@ export class GameComponent implements OnInit {
   iniciarJuego(){
     this.jugadaService.nuevaJugada(this.usuarioId, this.cantMazos).subscribe({
       next: (res) => {
-        console.log(res.mazo.id);
         this.idMazo = res.mazo.id;
+        this.jugadaId = res.jugada.id;
+
 
         this.retirarCartas();
 
@@ -71,23 +76,6 @@ export class GameComponent implements OnInit {
     this.turnoJugador = true;
   }
 
-  /*obtenerCartas(jugador: string){
-    this.jugadaService.retirarCarta(this.idMazo, 1).subscribe({
-      next: (res) => {
-        if(jugador == 'jugador'){
-          this.cartasJugador.push(res.cartasRetiradas[0]);
-          this.obtenerPuntos(jugador);
-        } else{
-          this.cartasCroupier.push(res.cartasRetiradas[0]);
-          this.obtenerPuntos(jugador);
-        }
-      },
-      error: () => {
-        console.log("Error")
-      }
-    })
-  }*/
-
   obtenerCartas(jugador: string){
     if (jugador == 'jugador') {
       this.cartasJugador.push(this.cartasRetirada[0]);
@@ -114,6 +102,17 @@ export class GameComponent implements OnInit {
 
   registrarJugada(){
     //metodo que registre la jugada en la api
+    this.terminada = true;
+    this.jugadaService.editarJugada(this.jugadaId, this.puntajeCroupier, this.puntajeJugador, cartas, this.cartasJugador, this.gano, this.terminada).subscribe({
+      next:(res) => {
+        console.log(res);
+      },
+      error: () => {
+        console.log('error');
+      }
+    })
+
+    
   }
   
   obtenerPuntos(jugador: string) {
@@ -160,6 +159,7 @@ export class GameComponent implements OnInit {
       if (this.puntajeJugador > 21) {
         setTimeout(() => {
           this.alerta('error', 'Perdiste!')
+          this.gano= false;
         }, 500);
       }
     }
@@ -182,15 +182,18 @@ export class GameComponent implements OnInit {
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier > this.puntajeJugador
     ) {
-      this.alerta('error', 'Perdiste!')
+      this.alerta('error', 'Perdiste!');
+      this.gano= false;
     } else if (
       this.puntajeCroupier < 22 &&
       this.puntajeCroupier < this.puntajeJugador
     ) {
       if (this.blackJackJugador()) {
         this.alerta('success', 'Ganaste con un Blackjack!')
+        this.gano= true;
       } else {
-        this.alerta('success', 'Ganaste!')
+        this.alerta('success', 'Ganaste!');
+        this.gano= true;
       }
     } else if (
       this.puntajeCroupier < 22 &&
@@ -198,11 +201,14 @@ export class GameComponent implements OnInit {
     ) {
       if (this.blackJackJugador()) {
         this.alerta('success', 'Ganaste con un Blackjack!')
+        this.gano= true;
       } else {
         this.alerta('warning', 'Empate!')
+        this.gano= false;
       }
     } else if (this.puntajeCroupier > 21) {
       this.alerta('success', 'Ganaste!')
+      this.gano= true;
     }
   }
 
