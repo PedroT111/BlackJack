@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Carta } from 'src/app/models/carta';
-import { cartas } from 'src/db/db';
+import { Jugada } from 'src/app/models/jugada';
 import { JugadaService } from 'src/services/jugada.service';
 import Swal from 'sweetalert2';
 
@@ -9,34 +10,49 @@ import Swal from 'sweetalert2';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   turnoJugador: boolean;
   banderaInicio: boolean = true;
   usuarioId: any;
   cantMazos: number = 1;
   idMazo: number;
+  jugada = {} as Jugada;
   cartasRetirada: any[] = [];
-  cartasCroupier: any[] = [];
-  cartasJugador: any[] = [];
-  puntajeCroupier: number;
-  puntajeJugador: number;
-  jugadaId: number;
-  gano: boolean;
-  terminada: boolean = false;
+  subscribe: Subscription = new Subscription();
+
   constructor(private jugadaService: JugadaService) {
     this.usuarioId = localStorage.getItem('usuarioId');
+    this.jugada.cartasCroupier = [];
+    this.jugada.cartasUsuario = [];
+  }
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.iniciarJuego();
+    this.consultarUltimaJugada();
   }
-
+  consultarUltimaJugada(){
+    this.subscribe.add(this.jugadaService.consultarUltimaJugada(this.usuarioId).subscribe({
+      next: (res) => {
+        if(res != null){
+          this.jugada = res.jugada;
+          console.log(this.jugada);
+        } else{
+          this.iniciarJuego();
+        }
+      },
+      error: () => {
+        console.log("Error")
+      }
+    }));
+  }
   iniciarJuego(){
-    this.jugadaService.nuevaJugada(this.usuarioId, this.cantMazos).subscribe({
+    this.subscribe.add(this.jugadaService.nuevaJugada(this.usuarioId, this.cantMazos).subscribe({
       next: (res) => {
         this.idMazo = res.mazo.id;
-        this.jugadaId = res.jugada.id;
-
+        this.jugada.JugadaId = res.jugada.id;
+        console.log(this.jugada.JugadaId, 'al iniciar');
 
         this.retirarCartas();
 
@@ -44,31 +60,44 @@ export class GameComponent implements OnInit {
       error: () => {
         console.log("Error")
       }
-    })
+    }));
   }
   //Saca 20 cartas del mazo
   retirarCartas(){
-    this.jugadaService.retirarCarta(this.idMazo, 20).subscribe({
+    this.subscribe.add(this.jugadaService.retirarCarta(this.idMazo, 20).subscribe({
       next: (res) => {
         this.cartasRetirada = res.cartasRetiradas;
-        //reparte las cartas
         this.repartirPrimeras4Cartas();
         this.obtenerPuntos('jugador');
         this.obtenerPuntos('croupier');
+        console.log(this.jugada.JugadaId, 'al retirar');
       },
       error: () => {
         console.log("Error")
       }
-    })
+    }));
+  }
+
+  registrarJugada(){
+    this.jugada.terminada = true;
+    console.log(this.jugada.JugadaId, 'al registrar');
+    this.subscribe.add(this.jugadaService.editarJugada(this.jugada).subscribe({
+      next:(res) => {
+        console.log(res);
+      },
+      error: () => {
+        console.log('error');
+      }
+    }));    
   }
   //Reparte las primeras cartas de la jugada
   repartirPrimeras4Cartas(){
     for (let i = 0; i < 4; i++) {
       if(this.turnoJugador){
-        this.cartasJugador.push(this.cartasRetirada[i]);
+        this.jugada.cartasUsuario.push(this.cartasRetirada[i]);
         this.cartasRetirada.splice(i, 1);
       } else{
-        this.cartasCroupier.push(this.cartasRetirada[i]);
+        this.jugada.cartasCroupier.push(this.cartasRetirada[i]);
         this.cartasRetirada.splice(i, 1);
       }
       this.turnoJugador = !this.turnoJugador;
@@ -78,88 +107,67 @@ export class GameComponent implements OnInit {
 
   obtenerCartas(jugador: string){
     if (jugador == 'jugador') {
-      this.cartasJugador.push(this.cartasRetirada[0]);
+      this.jugada.cartasUsuario.push(this.cartasRetirada[0]);
       this.cartasRetirada.splice(0,1);
       this.obtenerPuntos(jugador);
     } else {
-      this.cartasCroupier.push(this.cartasRetirada[0]);
+      this.jugada.cartasCroupier.push(this.cartasRetirada[0]);
       this.cartasRetirada.splice(0,1);
       this.obtenerPuntos(jugador);
     }
   }
+
   reiniciar(){
-    //Registrar jugada y reiniciar
     this.registrarJugada();
     this.turnoJugador = true;
     this.banderaInicio = true;
     this.cartasRetirada = [];
-    this.cartasCroupier= [];
-    this.cartasJugador= [];
-    this.puntajeCroupier= 0;
-    this.puntajeJugador= 0;
+    this.jugada = {} as Jugada;
+    this.jugada.cartasCroupier = [];
+    this.jugada.cartasUsuario = [];
     this.iniciarJuego();
   }
 
-  registrarJugada(){
-    //metodo que registre la jugada en la api
-    this.terminada = true;
-    this.jugadaService.editarJugada(this.jugadaId, this.puntajeCroupier, this.puntajeJugador, cartas, this.cartasJugador, this.gano, this.terminada).subscribe({
-      next:(res) => {
-        console.log(res);
-      },
-      error: () => {
-        console.log('error');
-      }
-    })
-
-    
-  }
-  
   obtenerPuntos(jugador: string) {
     let puntos = 0;
     if (jugador === 'croupier') {
-      this.cartasCroupier.forEach((carta) => {
+      this.jugada.cartasCroupier.forEach((carta) => {
         puntos += carta.valorJuego;
       });
 
       if (
-        this.cartasCroupier.find((element) => element.valor === 'as') !=
+        this.jugada.cartasCroupier.find((element) => element.valor === 'as') !=
         undefined
       ) {
-        const cartasConAses = this.cartasCroupier.filter(this.tieneAs);
-        //console.log(cartasConAses);
+        const cartasConAses = this.jugada.cartasCroupier.filter(this.tieneAs);
         cartasConAses.forEach((i) => {
           if (puntos > 21) {
             puntos -= 10;
           }
         });
       }
-
-      this.puntajeCroupier = puntos;
+      this.jugada.puntajeCroupier = puntos;
     } else if (jugador === 'jugador') {
-      this.cartasJugador.forEach((carta) => {
+      this.jugada.cartasUsuario.forEach((carta) => {
         puntos += carta.valorJuego;
       });
 
       if (
-        this.cartasJugador.find((element) => element.valor === 'as') !=
+        this.jugada.cartasUsuario.find((element) => element.valor === 'as') !=
         undefined
       ) {
-        const cartasConAses = this.cartasJugador.filter(this.tieneAs);
-        //console.log(cartasConAses);
+        const cartasConAses = this.jugada.cartasUsuario.filter(this.tieneAs);
         cartasConAses.forEach((i) => {
           if (puntos > 21) {
             puntos -= 10;
           }
         });
       }
-
-      this.puntajeJugador = puntos;
-
-      if (this.puntajeJugador > 21) {
+      this.jugada.puntajeUsuario = puntos;
+      if (this.jugada.puntajeUsuario > 21) {
         setTimeout(() => {
           this.alerta('error', 'Perdiste!')
-          this.gano= false;
+          this.jugada.gano= false;
         }, 500);
       }
     }
@@ -174,46 +182,45 @@ export class GameComponent implements OnInit {
 
   obtenerResultado() {
     this.banderaInicio = false;
-    //este while me genera un bucle infinito
-    while (this.puntajeCroupier < 17) {
+    while (this.jugada.puntajeCroupier < 17) {
      this.obtenerCartas('croupier');
     }
     if (
-      this.puntajeCroupier < 22 &&
-      this.puntajeCroupier > this.puntajeJugador
+      this.jugada.puntajeCroupier < 22 &&
+      this.jugada.puntajeCroupier > this.jugada.puntajeUsuario
     ) {
       this.alerta('error', 'Perdiste!');
-      this.gano= false;
+      this.jugada.gano= false;
     } else if (
-      this.puntajeCroupier < 22 &&
-      this.puntajeCroupier < this.puntajeJugador
+      this.jugada.puntajeCroupier < 22 &&
+      this.jugada.puntajeCroupier < this.jugada.puntajeUsuario
     ) {
       if (this.blackJackJugador()) {
         this.alerta('success', 'Ganaste con un Blackjack!')
-        this.gano= true;
+        this.jugada.gano= true;
       } else {
         this.alerta('success', 'Ganaste!');
-        this.gano= true;
+        this.jugada.gano= true;
       }
     } else if (
-      this.puntajeCroupier < 22 &&
-      this.puntajeCroupier === this.puntajeJugador
+      this.jugada.puntajeCroupier < 22 &&
+      this.jugada.puntajeCroupier === this.jugada.puntajeUsuario
     ) {
       if (this.blackJackJugador()) {
         this.alerta('success', 'Ganaste con un Blackjack!')
-        this.gano= true;
+        this.jugada.gano= true;
       } else {
         this.alerta('warning', 'Empate!')
-        this.gano= false;
+        this.jugada.gano= false;
       }
-    } else if (this.puntajeCroupier > 21) {
+    } else if (this.jugada.puntajeCroupier > 21) {
       this.alerta('success', 'Ganaste!')
-      this.gano= true;
+      this.jugada.gano= true;
     }
   }
 
   blackJackJugador() {
-    return this.cartasJugador.length === 2 && this.puntajeJugador === 21;
+    return this.jugada.cartasUsuario.length === 2 && this.jugada.puntajeUsuario === 21;
   }
 
   alerta(tipo: any, titulo: any) {

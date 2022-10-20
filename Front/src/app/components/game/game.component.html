@@ -2,8 +2,8 @@
   <div class="col-sm-6 mx-auto p-4">
     <app-dealer
       [banderaInicio]="banderaInicio"
-      [cartas]="cartasCroupier"
-      [puntajeCroupier]="puntajeCroupier"
+      [cartas]="jugada.cartasCroupier"
+      [puntajeCroupier]="jugada.puntajeCroupier"
     ></app-dealer>
   </div>
   <div class="col-sm-6 mx-auto p-4">
@@ -11,9 +11,9 @@
       (onGetCard)="obtenerCartas($event)"
       (onPlantarse)="obtenerResultado()"
       (onReiniciar)="reiniciar()"
-      [cartas]="cartasJugador"
+      [cartas]="jugada.cartasUsuario"
       [flagInicio]="banderaInicio"
-      [puntajeUsuario]="puntajeJugador"
+      [puntajeUsuario]="jugada.puntajeUsuario"
     ></app-player>
   </div>
 </div>

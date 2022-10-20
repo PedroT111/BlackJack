@@ -3,7 +3,7 @@ const router = express.Router();
 const mazoController = require('../controllers/mazoController');
 const AuthMiddleware = require('../middleware/auth');
 
-router.post("/", mazoController.generarMazo);
-router.put("/retirar", mazoController.retirarCartas);
+router.post("/", AuthMiddleware, mazoController.generarMazo);
+router.put("/retirar", AuthMiddleware, mazoController.retirarCartas);
 
 module.exports = router;

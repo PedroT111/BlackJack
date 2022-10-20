@@ -3,20 +3,23 @@ const { crearServicio } = require("../services/crear");
 const Usuario = db.models.Usuario;
 const Jugada = db.models.Jugada;
 
-const consultaJugada = async (req, res) => {
+const UltimaJugadaDelUsuario = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-
+    const {id} = req.params;
     if (id === null) {
       res.status(501).send("Debe haber un parámetro id");
     } else {
-      const jugada = await Jugada.findOne({ where: { id: id } });
+      const jugada = await Jugada.findOne({
+        where: { UsuarioId:id}
+      });
       res.status(200).send({ jugada });
     }
   } catch (error) {
     res.status(501).send({ Error: error.message });
   }
 };
+
+
 
 const nuevaJugada = async (req, res) => {
   try {
@@ -87,4 +90,4 @@ const actualizarJugada = async (req, res) => {
   }
 };
 
-module.exports = { nuevaJugada, actualizarJugada, consultaJugada };
+module.exports = { nuevaJugada, actualizarJugada, UltimaJugadaDelUsuario };
