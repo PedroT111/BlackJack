@@ -14,7 +14,7 @@ export class PlayerComponent implements OnInit {
   @Input() flagInicio: boolean;
   @Input() cartas: any[] = [];
   @Input() puntajeUsuario: number;
-  constructor(private serviceCard: CardsService) {}
+  constructor() {}
 
   ngOnInit(): void {}
   getCard() {

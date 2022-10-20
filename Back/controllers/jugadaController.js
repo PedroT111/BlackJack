@@ -10,7 +10,7 @@ const UltimaJugadaDelUsuario = async (req, res) => {
       res.status(501).send("Debe haber un parámetro id");
     } else {
       const jugada = await Jugada.findOne({
-        where: { UsuarioId:id}
+        where: { UsuarioId:id, terminada: false}
       });
       res.status(200).send({ jugada });
     }

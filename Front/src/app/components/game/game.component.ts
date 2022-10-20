@@ -26,6 +26,14 @@ export class GameComponent implements OnInit, OnDestroy {
     this.jugada.cartasUsuario = [];
   }
   ngOnDestroy(): void {
+
+    /* la idea es hacer que al salir del componente se guarde la jugada como no terminada
+    entonces al volver a entrar me traeria esa jugada. pero no se ejecuta esta funcion. quizas
+    porque no se debe hacer en el ngOnDestroy
+    la otra opcion seria meter un eventEmitter desde el btn cerrar sesion del header y que 
+    ejecute la funcion registrarJugada(false)
+    console.log(this.jugada, 'jugg')
+    this.registrarJugada(false);*/
     this.subscribe.unsubscribe();
   }
 
@@ -35,11 +43,12 @@ export class GameComponent implements OnInit, OnDestroy {
   consultarUltimaJugada(){
     this.subscribe.add(this.jugadaService.consultarUltimaJugada(this.usuarioId).subscribe({
       next: (res) => {
-        if(res != null){
+        if(res.jugada != null){
           this.jugada = res.jugada;
-          console.log(this.jugada);
+          console.log(res, 'res');
         } else{
           this.iniciarJuego();
+          console.log(res, 'res aa');
         }
       },
       error: () => {
@@ -52,10 +61,7 @@ export class GameComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.idMazo = res.mazo.id;
         this.jugada.JugadaId = res.jugada.id;
-        console.log(this.jugada.JugadaId, 'al iniciar');
-
         this.retirarCartas();
-
       },
       error: () => {
         console.log("Error")
@@ -78,12 +84,12 @@ export class GameComponent implements OnInit, OnDestroy {
     }));
   }
 
-  registrarJugada(){
-    this.jugada.terminada = true;
-    console.log(this.jugada.JugadaId, 'al registrar');
+  registrarJugada(termino:boolean){
+    this.jugada.terminada = termino;
+    console.log(this.jugada, 'al registrar');
     this.subscribe.add(this.jugadaService.editarJugada(this.jugada).subscribe({
       next:(res) => {
-        console.log(res);
+        console.log(res, 'ejecutandose el registro');
       },
       error: () => {
         console.log('error');
@@ -118,7 +124,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   reiniciar(){
-    this.registrarJugada();
+    this.registrarJugada(true);
     this.turnoJugador = true;
     this.banderaInicio = true;
     this.cartasRetirada = [];

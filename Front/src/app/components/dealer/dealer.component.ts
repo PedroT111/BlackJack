@@ -11,18 +11,7 @@ export class DealerComponent implements OnInit {
   @Input() banderaInicio: boolean;
   @Input() cartas: any[]= []; 
   @Input() puntajeCroupier: number;
-  constructor(private serviceCard: CardsService) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  /*get puntajeCroupier() {
-    return this.serviceCard.puntajeCroupier;
-  }*/
-
-  /*get cartas() {
-    return this.serviceCard.cartasCroupier;
-  }
-  getCard(){
-    this.onGetCard.emit();
-  }*/
 }

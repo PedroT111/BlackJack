@@ -7,7 +7,6 @@ import { DealerComponent } from './components/dealer/dealer.component';
 import { PlayerComponent } from './components/player/player.component';
 import { GameComponent } from './components/game/game.component';
 import { FormsModule } from '@angular/forms';
-import { CardsService } from 'src/services/cards.service';
 import { HeaderComponent } from './components//header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -36,7 +35,7 @@ import { JugadaService } from 'src/services/jugada.service';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [CardsService, AuthService, AuthGuard, JugadaService],
+  providers: [AuthService, AuthGuard, JugadaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
