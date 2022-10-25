@@ -31,7 +31,7 @@ const Authentication = async (req, res) => {
         const {usuario, password} = req.body;
         const user = await Usuario.findOne({where:{usuario: usuario}});
         if(!user){
-            res.json({error: "El usuario no existe"});
+            res.status(404).json({"error:":"El usuario no existe"});
         } else{
             if(bcrypt.compareSync(password, user.password)){
                 res.json({

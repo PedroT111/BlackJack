@@ -1,5 +1,5 @@
 const shuffle = require("shuffle-array");
-const { flatten, pipe, always, times } = require("ramda");
+const { flatten, always, times } = require("ramda");
 
 const cartas = [
   {
@@ -372,4 +372,7 @@ const generarMazo=(veces)=>{
   console.log(veces)
   return flatten(times(always(shuffle(cartas)), veces));
 }
+
+// console.log(generarMazo(2).length);
+
 module.exports = { cartas, generarMazo };
