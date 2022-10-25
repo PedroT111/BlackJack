@@ -13,222 +13,115 @@ import Swal from 'sweetalert2';
 export class GameComponent implements OnInit, OnDestroy {
   turnoJugador: boolean;
   banderaInicio: boolean = true;
-  usuarioId: any;
-  cantMazos: number = 1;
-  idMazo: number;
+  cantMazos: number = 2;
   jugada = {} as Jugada;
   cartasRetirada: any[] = [];
-  subscribe: Subscription = new Subscription();
+  subscription: Subscription = new Subscription();
 
   constructor(private jugadaService: JugadaService) {
-    this.usuarioId = localStorage.getItem('usuarioId');
-    this.jugada.cartasCroupier = [];
-    this.jugada.cartasUsuario = [];
   }
   ngOnDestroy(): void {
 
-    /* la idea es hacer que al salir del componente se guarde la jugada como no terminada
-    entonces al volver a entrar me traeria esa jugada. pero no se ejecuta esta funcion. quizas
-    porque no se debe hacer en el ngOnDestroy
-    la otra opcion seria meter un eventEmitter desde el btn cerrar sesion del header y que 
-    ejecute la funcion registrarJugada(false)
-    console.log(this.jugada, 'jugg')
-    this.registrarJugada(false);*/
-    this.subscribe.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
     this.consultarUltimaJugada();
   }
+
   consultarUltimaJugada(){
-    this.subscribe.add(this.jugadaService.consultarUltimaJugada(this.usuarioId).subscribe({
-      next: (res) => {
+    console.log('hola')
+    this.subscription.add(this.jugadaService.consultarUltimaJugada().subscribe({
+      next:(res) => {
         if(res.jugada != null){
           this.jugada = res.jugada;
-          console.log(res, 'res');
+          console.log('hola2')
+          console.log(this.jugada)
         } else{
-          this.iniciarJuego();
-          console.log(res, 'res aa');
+          this.crearJugadaNueva();
         }
       },
       error: () => {
-        console.log("Error")
+        console.log('Error');
       }
-    }));
-  }
-  iniciarJuego(){
-    this.subscribe.add(this.jugadaService.nuevaJugada(this.usuarioId, this.cantMazos).subscribe({
-      next: (res) => {
-        this.idMazo = res.mazo.id;
-        this.jugada.JugadaId = res.jugada.id;
-        this.retirarCartas();
-      },
-      error: () => {
-        console.log("Error")
-      }
-    }));
-  }
-  //Saca 20 cartas del mazo
-  retirarCartas(){
-    this.subscribe.add(this.jugadaService.retirarCarta(this.idMazo, 20).subscribe({
-      next: (res) => {
-        this.cartasRetirada = res.cartasRetiradas;
-        this.repartirPrimeras4Cartas();
-        this.obtenerPuntos('jugador');
-        this.obtenerPuntos('croupier');
-        console.log(this.jugada.JugadaId, 'al retirar');
-      },
-      error: () => {
-        console.log("Error")
-      }
-    }));
+    }))
   }
 
-  registrarJugada(termino:boolean){
-    this.jugada.terminada = termino;
-    console.log(this.jugada, 'al registrar');
-    this.subscribe.add(this.jugadaService.editarJugada(this.jugada).subscribe({
-      next:(res) => {
-        console.log(res, 'ejecutandose el registro');
+  crearJugadaNueva(){
+    this.subscription.add(this.jugadaService.nuevaJugada(this.cantMazos).subscribe({
+      next: (res) => {
+        this.jugada = res.jugada;
+        this.repartirCartas();
+      },
+      error: () => {
+        console.log('Error');
+      }
+    }))
+  }
+
+  repartirCartas(){
+    console.log(this.jugada)
+    this.subscription.add(this.jugadaService.editarJugada(this.jugada.id, 'jugador', 2).subscribe({
+      next: (res) => {
+        console.log('repartir');
+
+        //generar alerta por si sale blackjack
       },
       error: () => {
         console.log('error');
       }
-    }));    
-  }
-  //Reparte las primeras cartas de la jugada
-  repartirPrimeras4Cartas(){
-    for (let i = 0; i < 4; i++) {
-      if(this.turnoJugador){
-        this.jugada.cartasUsuario.push(this.cartasRetirada[i]);
-        this.cartasRetirada.splice(i, 1);
-      } else{
-        this.jugada.cartasCroupier.push(this.cartasRetirada[i]);
-        this.cartasRetirada.splice(i, 1);
+    }));
+    this.subscription.add(this.jugadaService.editarJugada(this.jugada.id, 'croupier', 2).subscribe({
+      next: (res) => {
+        this.jugada.cartasCroupier = res.cartasCroupier;
+        this.jugada.cartasUsuario = res.cartasUsuario;
+        this.jugada.puntajeCroupier = res.puntajeCroupier;
+        this.jugada.puntajeUsuario = res.puntajeUsuario;
+        this.jugada.gano = res.gano;
+      },
+      error: () => {
+        console.log('error');
       }
-      this.turnoJugador = !this.turnoJugador;
-    }
-    this.turnoJugador = true;
+    }));
   }
 
-  obtenerCartas(jugador: string){
-    if (jugador == 'jugador') {
-      this.jugada.cartasUsuario.push(this.cartasRetirada[0]);
-      this.cartasRetirada.splice(0,1);
-      this.obtenerPuntos(jugador);
-    } else {
-      this.jugada.cartasCroupier.push(this.cartasRetirada[0]);
-      this.cartasRetirada.splice(0,1);
-      this.obtenerPuntos(jugador);
-    }
-  }
-
-  reiniciar(){
-    this.registrarJugada(true);
-    this.turnoJugador = true;
-    this.banderaInicio = true;
-    this.cartasRetirada = [];
-    this.jugada = {} as Jugada;
-    this.jugada.cartasCroupier = [];
-    this.jugada.cartasUsuario = [];
-    this.iniciarJuego();
-  }
-
-  obtenerPuntos(jugador: string) {
-    let puntos = 0;
-    if (jugador === 'croupier') {
-      this.jugada.cartasCroupier.forEach((carta) => {
-        puntos += carta.valorJuego;
-      });
-
-      if (
-        this.jugada.cartasCroupier.find((element) => element.valor === 'as') !=
-        undefined
-      ) {
-        const cartasConAses = this.jugada.cartasCroupier.filter(this.tieneAs);
-        cartasConAses.forEach((i) => {
-          if (puntos > 21) {
-            puntos -= 10;
-          }
-        });
+  pedirCarta(){
+    this.subscription.add(this.jugadaService.editarJugada(this.jugada.id, 'jugador', 1).subscribe({
+      next: (res) => {
+        this.jugada.cartasUsuario = res.cartasUsuario;
+        this.jugada.puntajeUsuario = res.puntajeUsuario;
+        this.jugada.perdio = res.perdio;
+        this.jugada.terminada = res.terminada;
+        
+        //generar alerta de gano, perdio o empate
+      },
+      error: () => {
+        console.log('error');
       }
-      this.jugada.puntajeCroupier = puntos;
-    } else if (jugador === 'jugador') {
-      this.jugada.cartasUsuario.forEach((carta) => {
-        puntos += carta.valorJuego;
-      });
+    }))
+  };
 
-      if (
-        this.jugada.cartasUsuario.find((element) => element.valor === 'as') !=
-        undefined
-      ) {
-        const cartasConAses = this.jugada.cartasUsuario.filter(this.tieneAs);
-        cartasConAses.forEach((i) => {
-          if (puntos > 21) {
-            puntos -= 10;
-          }
-        });
-      }
-      this.jugada.puntajeUsuario = puntos;
-      if (this.jugada.puntajeUsuario > 21) {
-        setTimeout(() => {
-          this.alerta('error', 'Perdiste!')
-          this.jugada.gano= false;
-        }, 500);
-      }
+  //Se hace un bucle infinito
+  plantarse(){
+   while(this.jugada.puntajeCroupier < 17){
+      this.subscription.add(this.jugadaService.editarJugada(this.jugada.id, 'croupier', 1).subscribe({
+        next: (res) => {
+          this.jugada.cartasCroupier = res.cartasCroupier;
+          this.jugada.puntajeCroupier = res.puntajeCroupier;
+          this.jugada.perdio = res.perdio;
+
+          //generar alerta para ver quien ganó
+        },
+        error: () => {
+          console.log('error');
+        }
+      }))
     }
+    console.log(this.jugada);
   }
+  
 
-  tieneAs(carta: Carta) {
-    if (carta.valor === 'as') {
-      return true;
-    }
-    return false;
-  }
-
-  obtenerResultado() {
-    this.banderaInicio = false;
-    while (this.jugada.puntajeCroupier < 17) {
-     this.obtenerCartas('croupier');
-    }
-    if (
-      this.jugada.puntajeCroupier < 22 &&
-      this.jugada.puntajeCroupier > this.jugada.puntajeUsuario
-    ) {
-      this.alerta('error', 'Perdiste!');
-      this.jugada.gano= false;
-    } else if (
-      this.jugada.puntajeCroupier < 22 &&
-      this.jugada.puntajeCroupier < this.jugada.puntajeUsuario
-    ) {
-      if (this.blackJackJugador()) {
-        this.alerta('success', 'Ganaste con un Blackjack!')
-        this.jugada.gano= true;
-      } else {
-        this.alerta('success', 'Ganaste!');
-        this.jugada.gano= true;
-      }
-    } else if (
-      this.jugada.puntajeCroupier < 22 &&
-      this.jugada.puntajeCroupier === this.jugada.puntajeUsuario
-    ) {
-      if (this.blackJackJugador()) {
-        this.alerta('success', 'Ganaste con un Blackjack!')
-        this.jugada.gano= true;
-      } else {
-        this.alerta('warning', 'Empate!')
-        this.jugada.gano= false;
-      }
-    } else if (this.jugada.puntajeCroupier > 21) {
-      this.alerta('success', 'Ganaste!')
-      this.jugada.gano= true;
-    }
-  }
-
-  blackJackJugador() {
-    return this.jugada.cartasUsuario.length === 2 && this.jugada.puntajeUsuario === 21;
-  }
-
+  //alerta
   alerta(tipo: any, titulo: any) {
     setTimeout(() => {
       Swal.fire({
@@ -239,5 +132,7 @@ export class GameComponent implements OnInit, OnDestroy {
       });
     }, 500);
   }
+  
+  
 
 }

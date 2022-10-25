@@ -10,19 +10,21 @@ import { Jugada } from 'src/app/models/jugada';
 export class JugadaService {
   private url: string= 'http://localhost:4000/';
   private token:string | null = "";
+  private usuarioId: string | null = "";
   constructor(private http: HttpClient) {
     this.token =localStorage.getItem('token');
+    this.usuarioId = localStorage.getItem('usuarioId');
   }
-  consultarUltimaJugada(idUsuario:number):Observable<any>{
-    return this.http.get(`${this.url}jugadas/ultima/${idUsuario}`, {
+  consultarUltimaJugada():Observable<any>{
+    return this.http.get(`${this.url}jugadas/ultima/${this.usuarioId}`, {
       headers: {
         'Authorization': `Bearer ${this.token}`
       }
     });
   }
-  nuevaJugada(idUsuario: number, cantMazos: number):Observable<any>{
+  nuevaJugada(cantMazos: number):Observable<any>{
     return this.http.post(`${this.url}jugadas/nueva`,{
-      "UsuarioId": idUsuario,
+      "UsuarioId": this.usuarioId,
       "cantMazos": cantMazos
     }, {
       headers: {
@@ -31,23 +33,16 @@ export class JugadaService {
     } );
   }
 
-  retirarCarta(idMazo: number, cantidad: number):Observable<any>{
-    return this.http.put(`${this.url}mazo/retirar`,{
-        "id": idMazo,
-        "cartas":  cantidad
-    }, {
-      headers: {
-        'Authorization': `Bearer ${this.token}`
-      }
-    })
-  }
-
-  editarJugada(jugada:Jugada):Observable<any>{
-    return this.http.put(`${this.url}jugadas/actualizar`, jugada, {
-      headers: {
-        'Authorization': `Bearer ${this.token}`
-      }
-    });
+  editarJugada(jugadaId: number, participante: string, cantCartas: number):Observable<any>{
+    return this.http.put(`${this.url}jugadas/actualizar`, {
+      "JugadaId": jugadaId,
+      "participante": participante,
+      "cantCartas": cantCartas
+  },{
+    headers: {
+      'Authorization': `Bearer ${this.token}`
+    }
+  });
   }
 
 }

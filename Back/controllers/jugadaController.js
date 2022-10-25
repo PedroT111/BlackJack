@@ -7,14 +7,14 @@ const { obtenerPuntos } = require("../utils/resultado");
 const Usuario = db.models.Usuario;
 const Jugada = db.models.Jugada;
 
-const consultaJugada = async (req, res) => {
+const consultarUltimaJugada = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-
-    if (id === null) {
+    const {idUsuario} = req.params;
+    console.log(idUsuario)
+    if (idUsuario === null) {
       res.status(501).send("Debe haber un parámetro id");
     } else {
-      const jugada = await Jugada.findOne({ where: { id: id } });
+      const jugada = await Jugada.findOne({ where: { UsuarioId: idUsuario, terminada: false } });
       res.status(200).send({ jugada });
     }
   } catch (error) {
@@ -78,6 +78,7 @@ const nuevaJugada = async (req, res) => {
       mazo: mazo,
       gano: false,
       terminada: false,
+      blackjack: false
     });
 
     if (nuevaJugada) {
@@ -143,4 +144,4 @@ const procesarJugada = async (req, res) => {
   }
 };
 
-module.exports = { nuevaJugada, procesarJugada, consultaJugada };
+module.exports = { nuevaJugada, procesarJugada, consultarUltimaJugada };

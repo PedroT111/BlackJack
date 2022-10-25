@@ -1,9 +1,13 @@
 export interface Jugada{
-    JugadaId:number,
+    id:number,
     puntajeCroupier:number,
     puntajeUsuario: number,
+    UsuarioId: number,
     cartasCroupier:any[],
     cartasUsuario:any[],
-    gano:boolean,
-    terminada:boolean
+    mazo:any[],
+    terminada:boolean,
+    cantDisponible: number,
+    perdio: string,
+    gano: boolean
 }
