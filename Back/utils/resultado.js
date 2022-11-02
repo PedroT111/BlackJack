@@ -23,23 +23,19 @@ const totalPuntos = (cartas) => {
   return puntos;
 };
 
-const perdio = (puntaje) => {
-  return puntaje > 21;
-};
-
 const blackJack = (cartasUsuario, puntaje) => {
   if(puntaje == 21 && cartasUsuario.length == 2){
     return true;
   }
 }
 
-
-
-const obtenerResultado = (participante, cartasCroupier, cartasJugador) => {
+const obtenerResultado = (cartasCroupier, cartasJugador) => {
   let puntajeCroupier = 0;
   let puntajeUsuario = 0;
-  let quienPerdio = "";
+  let resultado; // 1- Gano 0-Empate -1-Perdio
   let blackjack = false;
+  let terminada = false;
+
 
   if (cartasCroupier.length > 0) {
     puntajeCroupier = totalPuntos(cartasCroupier);
@@ -48,40 +44,32 @@ const obtenerResultado = (participante, cartasCroupier, cartasJugador) => {
     puntajeUsuario = totalPuntos(cartasJugador);
   }
   if (puntajeUsuario > 21) {
-    quienPerdio = 'jugador'
+    resultado = -1;
+    terminada = true;
   }
   else if(puntajeCroupier < 22 && puntajeCroupier > puntajeUsuario){
-    quienPerdio = 'jugador'
-  } else if (puntajeCroupier < 22 && puntajeCroupier < puntajeUsuario){
+    resultado -1;
+  } else if (puntajeCroupier < 22  && puntajeCroupier < puntajeUsuario){
     if(blackJack(cartasJugador, puntajeUsuario)){
-      quienPerdio = 'croupier'
+      resultado = 1;
+      terminada = true;
       blackjack = true;
     } else {
-      quienPerdio = 'croupier'
+      resultado = 1
     }
   } else if(puntajeCroupier < 22 && puntajeCroupier == puntajeUsuario){
     if(blackJack(cartasJugador, puntajeUsuario)){
-      quienPerdio = 'croupier'
+      resultado = 1
       blackjack = true;
+      terminada = true;
     } else {
-      quienPerdio = 'empate'
+      resultado = 0;
     }
   } else if(puntajeCroupier > 21){
-    quienPerdio = 'croupier'
+    resultado = 1
+    terminada = true;
   }
-  /*if (participante === "jugador") {
-    perdio(puntajeUsuario) ? (quienPerdio = "jugador") : (quienPerdio = "");
-  } else if (participante === "croupier") {
-    perdio(puntajeCroupier) ? (quienPerdio = "croupier") : (quienPerdio = "");
-  }
-  if(blackJack(cartasJugador, puntajeUsuario)){
-    blackjack = true;
-    quienPerdio = 'croupier';
-  }*/
-
-
-
-  return { puntajeCroupier, puntajeUsuario, quienPerdio, blackjack };
+  return { puntajeCroupier, puntajeUsuario, resultado, blackjack, terminada };
 };
 
 module.exports = { obtenerResultado };

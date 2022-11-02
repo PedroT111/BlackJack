@@ -25,15 +25,13 @@ const procesarService = async (idJugada, participante, cantCartas) => {
       throw new BadRequestError();
     }
 
-    const { puntajeCroupier, puntajeUsuario, quienPerdio, blackjack } = obtenerResultado(
-      participante,
+    const { puntajeCroupier, puntajeUsuario, resultado, blackjack, terminada } = obtenerResultado(
       jugada.cartasCroupier,
       jugada.cartasUsuario
     );
 
-    if (quienPerdio !== "") {
-      jugada.terminada = true;
-    }
+    jugada.terminada = terminada;
+    jugada.resultado = resultado;
     jugada.blackjack = blackjack;
     jugada.puntajeCroupier = puntajeCroupier;
     jugada.puntajeUsuario = puntajeUsuario;
@@ -52,7 +50,7 @@ const procesarService = async (idJugada, participante, cantCartas) => {
         "blackjack"
       ]),
       assoc("cantDisponible", cantidadDisp),
-      assoc("perdio", quienPerdio),
+      assoc("resultado", resultado),
       assoc("blackjack", blackjack)
     );
 

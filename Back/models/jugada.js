@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.JSON,
         allowNull: false
       },
-      gano: {
-        type: DataTypes.BOOLEAN,
+      resultado: {
+        type: DataTypes.INTEGER,
       },
       terminada: {
         type: DataTypes.BOOLEAN,

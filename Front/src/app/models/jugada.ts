@@ -8,6 +8,6 @@ export interface Jugada{
     mazo:any[],
     terminada:boolean,
     cantDisponible: number,
-    perdio: string,
+    resultado: number,
     gano: boolean
 }

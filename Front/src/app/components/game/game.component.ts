@@ -30,12 +30,11 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   consultarUltimaJugada(){
-    console.log('hola')
     this.subscription.add(this.jugadaService.consultarUltimaJugada().subscribe({
       next:(res) => {
         if(res.jugada != null){
           this.jugada = res.jugada;
-          console.log('hola2')
+          console.log('no terminada')
           console.log(this.jugada)
         } else{
           this.crearJugadaNueva();
@@ -48,9 +47,11 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   crearJugadaNueva(){
+    console.log('nueva')
     this.subscription.add(this.jugadaService.nuevaJugada(this.cantMazos).subscribe({
       next: (res) => {
         this.jugada = res.jugada;
+        console.log(this.jugada)
         this.repartirCartas();
       },
       error: () => {
@@ -63,9 +64,9 @@ export class GameComponent implements OnInit, OnDestroy {
     console.log(this.jugada)
     this.subscription.add(this.jugadaService.editarJugada(this.jugada.id, 'jugador', 2).subscribe({
       next: (res) => {
-        console.log('repartir');
-
-        //generar alerta por si sale blackjack
+        if(res.blackjack){
+          this.alerta('success','blackjack');
+        }
       },
       error: () => {
         console.log('error');
@@ -90,10 +91,12 @@ export class GameComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.jugada.cartasUsuario = res.cartasUsuario;
         this.jugada.puntajeUsuario = res.puntajeUsuario;
-        this.jugada.perdio = res.perdio;
+        this.jugada.resultado = res.resultado;
         this.jugada.terminada = res.terminada;
         
-        //generar alerta de gano, perdio o empate
+        if(res.terminada){
+          this.alerta('success', res.resultado);
+        }
       },
       error: () => {
         console.log('error');
@@ -102,22 +105,13 @@ export class GameComponent implements OnInit, OnDestroy {
   };
 
   //Se hace un bucle infinito
-  plantarse(){
+  async plantarse(){
+    console.log('plantado')
    while(this.jugada.puntajeCroupier < 17){
-      this.subscription.add(this.jugadaService.editarJugada(this.jugada.id, 'croupier', 1).subscribe({
-        next: (res) => {
-          this.jugada.cartasCroupier = res.cartasCroupier;
-          this.jugada.puntajeCroupier = res.puntajeCroupier;
-          this.jugada.perdio = res.perdio;
-
-          //generar alerta para ver quien ganó
-        },
-        error: () => {
-          console.log('error');
-        }
-      }))
+      const data = await this.jugadaService.editarJugada(this.jugada.id, 'croupier', 1).toPromise();
+      this.jugada.puntajeCroupier = data.puntajeCroupier;
+      
     }
-    console.log(this.jugada);
   }
   
 
