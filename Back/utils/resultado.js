@@ -32,7 +32,7 @@ const blackJack = (cartasUsuario, puntaje) => {
 const obtenerResultado = (cartasCroupier, cartasJugador) => {
   let puntajeCroupier = 0;
   let puntajeUsuario = 0;
-  let resultado; // 1- Gano 0-Empate -1-Perdio
+  let resultado= 0; // 1- Gano 0-Empate -1-Perdio
   let blackjack = false;
   let terminada = false;
 
@@ -48,7 +48,7 @@ const obtenerResultado = (cartasCroupier, cartasJugador) => {
     terminada = true;
   }
   else if(puntajeCroupier < 22 && puntajeCroupier > puntajeUsuario){
-    resultado -1;
+    resultado= -1;
   } else if (puntajeCroupier < 22  && puntajeCroupier < puntajeUsuario){
     if(blackJack(cartasJugador, puntajeUsuario)){
       resultado = 1;

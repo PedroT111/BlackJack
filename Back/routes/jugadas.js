@@ -5,7 +5,7 @@ const AuthMiddleware = require("../middleware/auth");
 const jugada = require("../models/jugada");
 
 router.get("/ultima/:idUsuario", jugadaController.consultarUltimaJugada);
-router.put("/terminar/:idJugada", jugadaController.terminarJugada);
+router.put("/terminar", jugadaController.terminarJugada);
 router.post("/nueva", AuthMiddleware, jugadaController.nuevaJugada);
 router.put("/actualizar", jugadaController.procesarJugada);
 

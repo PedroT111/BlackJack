@@ -10,6 +10,7 @@
     <app-player
       (onGetCard)="pedirCarta()"
       (onPlantarse)="plantarse()"
+      (onReiniciar)="terminar()"
       [cartas]="jugada.cartasUsuario"
       [flagInicio]="banderaInicio"
       [puntajeUsuario]="jugada.puntajeUsuario"

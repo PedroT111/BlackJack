@@ -42,7 +42,7 @@ const nuevaJugada = async (req, res) => {
       cartasCroupier: [],
       cartasUsuario: [],
       mazo: mazo,
-      gano: false,
+      resultado: 0,
       terminada: false,
       blackjack: false
     });
@@ -77,12 +77,12 @@ const procesarJugada = async (req, res) => {
 
 const terminarJugada = async (req, res) => {
   try{
-    const {idJugada} = req.params;
+    const {idJugada} = req.body;
     console.log(idJugada);
     const jugada = await Jugada.findOne({where: {id: idJugada}});
     if(jugada){
       await jugada.update({terminada: true});
-      res.status(100).json(jugada);
+      res.status(200).json(jugada);
     } else{
       return res.status(404).json({
         error: "La jugada no existe",

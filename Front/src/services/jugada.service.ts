@@ -45,4 +45,14 @@ export class JugadaService {
   });
   }
 
+  terminarJugada(jugadaId: number):Observable<any>{
+    return this.http.put(`${this.url}jugadas/terminar`, {
+      "idJugada": jugadaId
+    },{
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    });
+  }
+
 }
