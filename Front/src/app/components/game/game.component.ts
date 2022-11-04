@@ -16,6 +16,7 @@ export class GameComponent implements OnInit, OnDestroy {
   jugada = {} as Jugada;
   cartasRetirada: any[] = [];
   subscription: Subscription = new Subscription();
+  bloquear: boolean = false;
 
   constructor(private jugadaService: JugadaService) {
   }
@@ -61,7 +62,7 @@ export class GameComponent implements OnInit, OnDestroy {
         this.jugada.cartasUsuario = res.cartasUsuario;
         this.jugada.puntajeUsuario = res.puntajeUsuario;
         if(res.blackjack){
-          this.alerta('success','blackjack');
+          this.alerta('success',res.resultado);
         }
       },
       error: () => {
@@ -101,16 +102,21 @@ export class GameComponent implements OnInit, OnDestroy {
   };
 
   async plantarse(){
+  this.bloquear = true;
+  this.banderaInicio = false;
    while(this.jugada.puntajeCroupier < 17){
       const data = await this.jugadaService.editarJugada(this.jugada.id, 'croupier', 1).toPromise();
       this.jugada.cartasCroupier = data.cartasCroupier;
       this.jugada.puntajeCroupier = data.puntajeCroupier;
       this.jugada.resultado = data.resultado;
     }
+    console.log(this.jugada, 'jugada')
     this.alerta('success', this.jugada.resultado);
   }
 
   terminar(){
+    this.bloquear = false;
+    this.banderaInicio = true;
     this.jugadaService.terminarJugada(this.jugada.id).subscribe({
       next: (res) => {
         this.crearJugadaNueva();
@@ -121,7 +127,21 @@ export class GameComponent implements OnInit, OnDestroy {
     })
   }
 
-  alerta(tipo: any, titulo: any) {
+  alerta(tipo: any, resultado: any) {
+    let titulo:string;
+    switch(resultado){
+      case 0 :
+      titulo = 'Empatee!'
+      break;
+      case 1:
+      titulo = 'Ganaste!'
+      break;
+      case -1:
+      titulo='Perdiste!'
+      break;
+      default:
+      titulo = "";
+    }
     setTimeout(() => {
       Swal.fire({
         icon: tipo,

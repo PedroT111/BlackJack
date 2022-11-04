@@ -16,6 +16,13 @@ import { AuthService } from 'src/services/auth.service';
 import { AuthGuard } from './middleware/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JugadaService } from 'src/services/jugada.service';
+import { ReportesComponent } from './components/reportes/reportes.component';
+import { NgChartsModule } from 'ng2-charts';
+import { Rpt1Component } from './components/rpt1/rpt1.component';
+import { ReportesService } from 'src/services/reportes.service';
+import { Rpt2Component } from './components/rpt2/rpt2.component';
+import { Rpt3Component } from './components/rpt3/rpt3.component';
+
 
 @NgModule({
   declarations: [
@@ -26,16 +33,21 @@ import { JugadaService } from 'src/services/jugada.service';
     HeaderComponent,
     HomeComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    ReportesComponent,
+    Rpt1Component,
+    Rpt2Component,
+    Rpt3Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule
   ],
-  providers: [AuthService, AuthGuard, JugadaService],
+  providers: [AuthService, AuthGuard, JugadaService, ReportesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

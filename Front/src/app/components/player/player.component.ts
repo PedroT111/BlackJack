@@ -14,6 +14,7 @@ export class PlayerComponent implements OnInit {
   @Input() flagInicio: boolean;
   @Input() cartas: any[] = [];
   @Input() puntajeUsuario: number;
+  @Input() bloquear: boolean;
   constructor() {}
 
   ngOnInit(): void {}
@@ -23,7 +24,6 @@ export class PlayerComponent implements OnInit {
 
   plantarse() {
     this.onPlantarse.emit();
-    console.log(this.flagInicio)
   }
 
   reiniciar() {

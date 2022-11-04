@@ -7,6 +7,7 @@ const routesUsuario = require('./routes/usuario');
 const routesCartas = require('./routes/cards');
 const routesJugadas = require('./routes/jugadas');
 const routesMazo=require('./routes/mazo');
+const routesReportes=require('./routes/reportes');
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +20,7 @@ app.use('/usuarios', routesUsuario);
 app.use('/cartas', routesCartas);
 app.use('/jugadas', routesJugadas);
 app.use('/mazo', routesMazo);
+app.use('/reportes', routesReportes);
 
 
 const PORT = process.env.PORT || 4000; 

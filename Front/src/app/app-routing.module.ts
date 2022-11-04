@@ -4,6 +4,7 @@ import { GameComponent } from './components/game/game.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
+import { ReportesComponent } from './components/reportes/reportes.component';
 import { AuthGuard } from './middleware/auth.guard';
 
 const routes: Routes = [
@@ -11,7 +12,7 @@ const routes: Routes = [
   {path: 'registro', component: RegistroComponent},
   {path: 'home', component: HomeComponent,canActivate: [AuthGuard]},
   {path: 'game', component: GameComponent, canActivate: [AuthGuard]},
-
+  {path: 'reportes', component:ReportesComponent, canActivate:[AuthGuard]}
 ];
 
 @NgModule({

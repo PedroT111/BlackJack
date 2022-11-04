@@ -19,4 +19,8 @@ export class HomeComponent implements OnInit {
     this.route.navigate(['game'])
   }
 
+  reportes(){
+    this.route.navigate(['reportes'])
+  }
+
 }
