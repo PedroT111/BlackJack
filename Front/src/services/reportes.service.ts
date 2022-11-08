@@ -14,15 +14,27 @@ export class ReportesService {
   }
 
   reporte1():Observable<any>{
-    return this.http.get(`${this.url}reportes/reporte1/${this.usuarioId}`);
+    return this.http.get(`${this.url}reportes/reporte1/${this.usuarioId}`,{
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    });
   }
 
   reporte2():Observable<any>{
-    return this.http.get(`${this.url}reportes/reporte2/${this.usuarioId}`);
+    return this.http.get(`${this.url}reportes/reporte2/${this.usuarioId}`,{
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    });
   }
 
   reporte3():Observable<any>{
-    return this.http.get(`${this.url}reportes/reporte3/${this.usuarioId}`);
+    return this.http.get(`${this.url}reportes/reporte3/${this.usuarioId}`,{
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    });
   }
 
 
