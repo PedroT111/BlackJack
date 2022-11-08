@@ -21,5 +21,9 @@ export class ReportesService {
     return this.http.get(`${this.url}reportes/reporte2/${this.usuarioId}`);
   }
 
+  reporte3():Observable<any>{
+    return this.http.get(`${this.url}reportes/reporte3/${this.usuarioId}`);
+  }
+
 
 }

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Subscription } from 'rxjs';
+import { DatePipePipe } from 'src/app/date-pipe.pipe';
 import { ReportesService } from 'src/services/reportes.service';
 
 @Component({
@@ -40,13 +41,13 @@ export class Rpt3Component implements OnInit, OnDestroy {
   public barChartData: ChartData<'bar'>;
 
   getData(){
-    this.subscription.add(this.service.reporte1().subscribe({
+    this.subscription.add(this.service.reporte3().subscribe({
       next: (res) => {
         console.log(res);
         this.barChartData = {
-          labels: [ 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+          labels: res.map((d: any) => d.weekday),
           datasets: [
-            { data: [ res],
+            { data: res.map((d: any) => d.count),
               backgroundColor: ["green", "red", "blue"],
               hoverBackgroundColor: ["darkgreen","darkred", "darkblue"],}
           ]
@@ -57,5 +58,4 @@ export class Rpt3Component implements OnInit, OnDestroy {
       }
     }))
   }
-
 }

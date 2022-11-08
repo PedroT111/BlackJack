@@ -60,7 +60,9 @@ const reporte3 =async (req, res) => {
       attributes: [
         [db.sequelize.fn("weekday", db.sequelize.col("createdAt")), "weekday"],
       ],
+      order: [["weekday"]],
       group: ["weekday"],},
+      
     )
     res.status(200).json(jugadas);
     }
