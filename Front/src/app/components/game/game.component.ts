@@ -61,9 +61,6 @@ export class GameComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.jugada.cartasUsuario = res.cartasUsuario;
         this.jugada.puntajeUsuario = res.puntajeUsuario;
-        if(res.blackjack){
-          this.alerta('success',res.resultado);
-        }
       },
       error: () => {
         console.log('error');
@@ -75,6 +72,10 @@ export class GameComponent implements OnInit, OnDestroy {
           console.log(res, 'res')
           this.jugada.cartasCroupier = res.cartasCroupier;
           this.jugada.puntajeCroupier = res.puntajeCroupier;
+          this.jugada.resultado = res.resultado;
+          if(res.blackjack){
+            this.alerta('success',this.jugada.resultado);
+          }
         },
         error: () => {
           console.log('error');
@@ -132,7 +133,7 @@ export class GameComponent implements OnInit, OnDestroy {
     let titulo:string;
     switch(resultado){
       case 0 :
-      titulo = 'Empatee!'
+      titulo = 'Empate!'
       break;
       case 1:
       titulo = 'Ganaste!'

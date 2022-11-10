@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/services/auth.service';
@@ -10,8 +11,8 @@ import { AuthService } from 'src/services/auth.service';
 })
 export class RegistroComponent implements OnInit {
   usuario = {} as Usuario;
-  constructor(private authService: AuthService, private route: Router) { }
-
+  constructor(private authService: AuthService, private route: Router, private formBuilder:FormBuilder) { }
+  form: FormGroup;
   ngOnInit(): void {
   }
 

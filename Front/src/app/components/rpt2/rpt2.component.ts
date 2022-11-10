@@ -32,6 +32,7 @@ export class Rpt2Component implements OnInit, OnDestroy {
     plugins: {
       legend: {
         display: false,
+        
       },
     },
     color: '#f8f9fa',

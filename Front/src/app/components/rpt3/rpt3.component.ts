@@ -56,7 +56,7 @@ export class Rpt3Component implements OnInit {
             datasets: [
               {
                 data: conteos,
-                label: 'Partidas jugadas en el día',
+                label: 'Partidas jugadas',
                 backgroundColor: ['violet'],
                 borderColor: '#f8f9fa',
                 hoverBackgroundColor: ['darkgreen', 'darkred', 'darkblue'],

@@ -6,10 +6,10 @@
       ><span class="titulo titulo-3">.</span>
     </h1>
   </div>
-  <div class="col-sm-2 text-center d-flex">
-    <button (click)="salir()" class="brillo-hover">inicio</button>
+  <div *ngIf="route.url != '/'" class="col-sm-2 text-center d-flex">
+    <button (click)="salir()" class="brillo-hover">Inicio</button>
   </div>
-  <div class="col-sm-2 text-center d-flex">
-    <button (click)="cerrarSesion()" class="brillo-hover">cerrar sesión</button>
+  <div *ngIf="route.url != '/'" class="col-sm-2 text-center d-flex">
+    <button (click)="cerrarSesion()" class="brillo-hover w-75">Cerrar Sesión</button>
   </div>
 </div>
