@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Carta } from 'src/app/models/carta';
 import { CardsService } from 'src/services/cards.service';
 
@@ -15,7 +16,7 @@ export class PlayerComponent implements OnInit {
   @Input() cartas: any[] = [];
   @Input() puntajeUsuario: number;
   @Input() bloquear: boolean;
-  constructor() {}
+  constructor(private route: Router) {}
 
   ngOnInit(): void {}
   getCard() {
@@ -28,5 +29,9 @@ export class PlayerComponent implements OnInit {
 
   reiniciar() {
     this.onReiniciar.emit();
+  }
+
+  salir() {
+    this.route.navigate(['/home']);
   }
 }

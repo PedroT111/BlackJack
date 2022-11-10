@@ -13,7 +13,8 @@
     <div class="grupo-botones">
       <button [disabled]="bloquear" [ngClass]="{'brillo-hover' : !bloquear}" (click)="getCard()">pedir carta</button>
       <button [disabled]="bloquear" [ngClass]="{'brillo-hover' : !bloquear}" (click)="plantarse()">plantarse</button>
-      <button [disabled]="!bloquear" [ngClass]="{'brillo-hover' : bloquear}" class="brillo-hover" (click)="reiniciar()">Terminar</button>
+      <button [disabled]="!bloquear" [ngClass]="{'brillo-hover' : bloquear}" class="brillo-hover" (click)="reiniciar()">terminar</button>
+      <button class="brillo-hover" (click)="salir()">salir</button>
     </div>
   </div>
 </div>
