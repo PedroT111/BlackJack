@@ -93,6 +93,7 @@ export class GameComponent implements OnInit, OnDestroy {
         
         if(res.terminada){
           this.alerta('success', res.resultado);
+          this.bloquear = true;
         }
       },
       error: () => {

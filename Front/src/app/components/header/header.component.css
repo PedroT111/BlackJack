@@ -1,5 +1,4 @@
 .titulo {
-  font-size: 45px;
   font-weight: bolder;
   animation: color-animation 4s linear infinite;
 }

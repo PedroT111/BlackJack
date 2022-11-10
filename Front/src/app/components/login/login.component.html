@@ -1,16 +1,57 @@
-<div class="col-sm-6 mx-auto p-5">
-    <form class="text-light" [formGroup]="form">
-        <div class="mb-3">
-          <label  class="form-label">Usuario</label>
-          <input formControlName="usuario" name="usuario" type="text" class="form-control" id="txtUsuario">
-          <p class="text-center mt-2" *ngIf="form.get('usuario')?.touched && form.get('usuario')?.hasError('required')">Ingrese un usuario</p>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Password</label>
-          <input  formControlName="password" name="password" type="password" class="form-control" id="txtPassword">
-          <p class="text-center mt-2" *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">Ingrese una contraseña</p>
-        </div>
-        <button (click)="loguear()" type="button" class="btn btn-primary w-100">Login</button>
-        <p class="text-center mt-2" *ngIf="error">Usuario o Contraseña incorrecta</p>
-      </form>
+<div class="row justify-content-center">
+  <div class="col-sm-6 p-5">
+    <form class="row text-light" [formGroup]="form">
+      <div class="col-12 mb-3">
+        <label class="form-label"> Usuario </label>
+        <input
+          formControlName="usuario"
+          name="usuario"
+          type="text"
+          class="form-control"
+          id="txtUsuario"
+        />
+        <p
+          class="text-center mt-2"
+          *ngIf="
+            form.get('usuario')?.touched &&
+            form.get('usuario')?.hasError('required')
+          "
+        >
+          Ingrese un usuario
+        </p>
+      </div>
+      <div class="col-12 mb-3">
+        <label class="form-label"> Password </label>
+        <input
+          formControlName="password"
+          name="password"
+          type="password"
+          class="form-control"
+          id="txtPassword"
+        />
+        <p
+          class="text-center mt-2"
+          *ngIf="
+            form.get('password')?.touched &&
+            form.get('password')?.hasError('required')
+          "
+        >
+          Ingrese una contraseña
+        </p>
+      </div>
+      <div class="col-sm-8">
+        <button (click)="loguear()" type="button" class="btn btn-primary w-100">
+          Login
+        </button>
+      </div>
+      <div class="col-sm-4">
+        <button routerLink="registro" class="btn btn-primary w-100">
+          Registrarse
+        </button>
+      </div>
+      <p class="text-center mt-2" *ngIf="error">
+        Usuario o Contraseña incorrecta
+      </p>
+    </form>
+  </div>
 </div>

@@ -22,7 +22,6 @@ import { Rpt1Component } from './components/rpt1/rpt1.component';
 import { ReportesService } from 'src/services/reportes.service';
 import { Rpt2Component } from './components/rpt2/rpt2.component';
 import { Rpt3Component } from './components/rpt3/rpt3.component';
-import { DatePipePipe } from './date-pipe.pipe';
 
 
 @NgModule({
@@ -39,7 +38,6 @@ import { DatePipePipe } from './date-pipe.pipe';
     Rpt1Component,
     Rpt2Component,
     Rpt3Component,
-    DatePipePipe
   ],
   imports: [
     BrowserModule,

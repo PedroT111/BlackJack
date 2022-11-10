@@ -36,6 +36,7 @@ export class Rpt1Component implements OnInit, OnDestroy {
         position: 'top',
       },
     },
+    color: '#f8f9fa'
   }
 
   getData(){
